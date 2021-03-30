@@ -9,6 +9,7 @@ namespace FlightDetector
 {
     static class XmlParserConstants
     {
+        public const string Output = "output";
         public const string Chunk = "chunk";
         public const string Name = "name";
     }
@@ -25,7 +26,7 @@ namespace FlightDetector
         public string[] GetFeatures()
         {
             List<string> features = new List<string>();
-            XmlNode outputNode = this._document.GetElementsByTagName("output")[0];
+            XmlNode outputNode = this._document.GetElementsByTagName(XmlParserConstants.Output)[0];
             
             // getting list first because we don't know how many features the XML contains
             features = ExtractFeaturesList(outputNode);
