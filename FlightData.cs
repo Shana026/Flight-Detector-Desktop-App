@@ -9,16 +9,15 @@ namespace FlightDetector
     class FlightData
     {
         private Dictionary<int, float[]> _data;
+        private int _size;
 
-        private string[] _features;
-
-        public string[] Features => this._features;
+        public string[] Features { get; }
 
         FlightData(string xmlPath, string csvPath)
         {
             // todo implement
             _data = new Dictionary<float, float[]>();
-            _features = new string[10]; // todo size of array
+            Features = new string[10]; // todo size of array
         }
 
         public float[] GetTimeStepData(int timeStep)
@@ -28,8 +27,21 @@ namespace FlightDetector
 
         public float GetFeatureValue(int timeStep, string feature)
         {
-            // todo implement
-            return 1;
+            int featureIndex = GetFeatureIndex(feature);
+            return this._data[timeStep][featureIndex];
+        }
+
+        private int GetFeatureIndex(string feature)
+        {
+            for (int i = 0; i < this._size; i++)
+            {
+                if (feature == Features[i])
+                {
+                    return i;
+                }
+            }
+
+            throw new Exception("Feature does not exist");
         }
     }
 }
