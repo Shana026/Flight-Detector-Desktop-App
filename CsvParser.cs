@@ -14,37 +14,19 @@ namespace FlightDetector
             return File.ReadAllLines(path);
         }
 
-        public Dictionary<int, float[]> DataToDictionary(string[] lines)
+        public Dictionary<int, double[]> DataToDictionary(string[] lines)
         {
-            Dictionary<int, float[]> data = new Dictionary<int, float[]>();
+            Dictionary<int, double[]> data = new Dictionary<int, double[]>();
             int timeStep = 0;
             foreach (string line in lines)
             {
-                float[] values = StringArrayToFloat(line.Split(','));
+                double[] values = Array.ConvertAll(line.Split(','), Double.Parse);
                 data.Add(timeStep, values);
 
                 timeStep++;
             }
 
             return data;
-        }
-
-        private float[] StringArrayToFloat(string[] stringArr)
-        {
-            float[] floatArr = new float[stringArr.Length];
-            try
-            {
-                for (int i = 0; i < floatArr.Length; i++)
-                {
-                    floatArr[i] = float.Parse(stringArr[i]);
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("CSV values cannot convert to floats");
-            }
-
-            return floatArr;
         }
     }
 }
