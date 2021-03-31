@@ -24,11 +24,10 @@ namespace FlightDetector
 
         public string[] GetFeatures()
         {
-            List<string> features = new List<string>();
             XmlNode outputNode = this._document.GetElementsByTagName("output")[0];
             
             // getting list first because we don't know how many features the XML contains
-            features = ExtractFeaturesList(outputNode);
+            List<string> features = ExtractFeaturesList(outputNode);
 
             return features.ToArray();
         }

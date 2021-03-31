@@ -8,7 +8,7 @@ namespace FlightDetector
 {
     class FlightData
     {
-        private readonly Dictionary<int, float[]> _data;
+        private readonly Dictionary<int, double[]> _data;
         
         public int Size { get; }
 
@@ -22,12 +22,12 @@ namespace FlightDetector
             this._data = csvParser.DataToDictionary(csvParser.GetCsvLines(csvPath));
         }
 
-        public float[] GetTimeStepData(int timeStep)
+        public double[] GetTimeStepData(int timeStep)
         {
             return this._data[timeStep];
         }
 
-        public float GetFeatureValue(int timeStep, string feature)
+        public double GetFeatureValue(int timeStep, string feature)
         {
             int featureIndex = GetFeatureIndex(feature);
             return this._data[timeStep][featureIndex];
