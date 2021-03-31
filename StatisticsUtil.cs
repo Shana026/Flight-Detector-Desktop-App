@@ -8,9 +8,16 @@ namespace FlightDetector
 {
     static class StatisticsUtil
     {
-        public static float Variance(float[] xArray, float[] yArray)
+        public static double Expectancy(float[] xArray)
         {
             // Todo Implement
+            return 0;
+        }
+
+        public static float Variance(float[] xArray)
+        {
+            // Todo Implement
+            float expectancy = xArray.Average();
             return 0;
         }
 
@@ -24,6 +31,15 @@ namespace FlightDetector
         {
             // Todo Implement
             return 0;
+        }
+
+        private static float[] SquareAllElements(float[] xArray)
+        {
+            float[] res = new float[xArray.Length];
+            for (int i = 0; i < xArray.Length; i++)
+            {
+                res[i] = Math.Pow(xArray[i], 2);
+            }
         }
     }
 }
