@@ -13,6 +13,12 @@ namespace FlightDetector
         public FlightData Data => this._data;
 
 
+        public LastValuesGraphModel(FlightData data)
+        {
+            this._data = data;
+        }
+
+
         public List<double> GetLastValues(int timeStep, string feature)
         {
             List<double> lastValues = new List<double>();
@@ -25,6 +31,34 @@ namespace FlightDetector
 
             lastValues.Reverse(); // we got the data in backwards order for convenience. but we want it in the right order
             return lastValues;  
+        }
+
+        public string GetMostCorrelatedFeature(string feature)
+        {
+            double maxCorrelation = 0;
+            string mostCorrelated = "";
+            double[] featureAllValues = this._data.GetFeatureAllValues(feature);
+            string[] features = this._data.Features;
+            // todo maybe we need to check only features that are of greater column (like in semester A)
+            for (int i = 0; i < features.Length; i++)
+            {
+                if (features[i] == feature) // we don't want to check correlation to the same feature
+                {
+                    continue;
+                }
+                double[] tempFeatureAllValues = this._data.GetFeatureAllValues(features[i]);
+                double tempCorrelation = Math.Abs(StatisticsUtil.Pearson(featureAllValues, tempFeatureAllValues));
+
+                if (tempCorrelation <= maxCorrelation)
+                {
+                    continue;
+                }
+
+                maxCorrelation = tempCorrelation;
+                mostCorrelated = features[i];
+            }
+
+            return mostCorrelated;
         }
     }
 }

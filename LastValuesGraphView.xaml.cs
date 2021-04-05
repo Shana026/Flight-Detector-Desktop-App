@@ -23,6 +23,7 @@ namespace FlightDetector
         public LastValuesGraphView()
         {
             InitializeComponent();
+            
         }
     }
 }

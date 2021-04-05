@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightDetector", "FlightDetector.csproj", "{D60BF579-BD21-4ED1-A350-489DA39401F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{6F155FCB-6EA6-4B56-BD2D-09C261185EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "..\Tests\Tests.csproj", "{6F155FCB-6EA6-4B56-BD2D-09C261185EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI_Tests", "..\UI_Tests\UI_Tests.csproj", "{CE2B6BEC-3DE9-4F95-9A26-C2A16F53FF6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6F155FCB-6EA6-4B56-BD2D-09C261185EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F155FCB-6EA6-4B56-BD2D-09C261185EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F155FCB-6EA6-4B56-BD2D-09C261185EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2B6BEC-3DE9-4F95-9A26-C2A16F53FF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2B6BEC-3DE9-4F95-9A26-C2A16F53FF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2B6BEC-3DE9-4F95-9A26-C2A16F53FF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2B6BEC-3DE9-4F95-9A26-C2A16F53FF6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
