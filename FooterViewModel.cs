@@ -18,7 +18,6 @@ namespace FlightDetector
             this.model = model;
             model.connect("127.0.0.1", 5400);
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
-                Trace.WriteLine("in viewModel next line\n");
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
@@ -39,7 +38,6 @@ namespace FlightDetector
             set { 
                 play = value;
                 model.play();
-                Trace.WriteLine("in view VM_play\n");
             }
         }
 

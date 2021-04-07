@@ -56,8 +56,6 @@ namespace FlightDetector
                 // Read the file and display it line by line.  
                 while ((nextLine < csvNumOfLine) && !stop)
                    {
-                    Trace.WriteLine("in Model start\n");
-                    Trace.WriteLine("nextline:" + nextLine);
                     if (nextLine < 2174) {
                         client.write(lines[nextLine]);
                     }
@@ -65,7 +63,6 @@ namespace FlightDetector
                         Thread.Sleep(playbackSpeed);
                         NextLine++;
                 }
-                Trace.WriteLine("in model thread has stop!\n");
             }).Start();
         }
 
