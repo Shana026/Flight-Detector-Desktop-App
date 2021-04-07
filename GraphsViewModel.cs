@@ -9,12 +9,23 @@ using FlightDetector.Annotations;
 
 namespace FlightDetector
 {
-    class LastValuesGraphViewModel : INotifyPropertyChanged
+    class GraphsViewModel : INotifyPropertyChanged
     {
+        private const double MIN_EPSILON = 0.0000001;
+        private const double MAX_EPSILON = 0.9999999;
+
         public event PropertyChangedEventHandler PropertyChanged;
-        private LastValuesGraphModel _model;
+        private GraphsModel _model;
         private double _secondsPassed = 0;
         private double _timeStepsPerSecond;
+
+        private string[] _features;
+
+        public string[] Features
+        {
+            get => this._features;
+            set => this._features = value;
+        }
 
         private int _timeStep;
 
@@ -25,8 +36,10 @@ namespace FlightDetector
             {
                 this._timeStep = value;
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
-                if (IsSecondPassed(this._secondsPassed + (1 / this._timeStepsPerSecond)))
+                this._secondsPassed += (1 / this._timeStepsPerSecond);
+                if (IsSecondPassed(this._secondsPassed))
                 {
+
                     this.SelectedLastValues = GetLastValues(this._selectedFeature);
                     this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
                 }
@@ -38,10 +51,11 @@ namespace FlightDetector
         public string SelectedFeature
         {
             get => this._selectedFeature;
-            private set
+            set
             {
                 this._selectedFeature = value;
                 this.SelectedLastValues = GetLastValues(this._selectedFeature);
+                this.MostCorrelatedFeature = GetMostCorrelatedFeature();
                 OnPropertyChanged(nameof(SelectedFeature));
             }
         }
@@ -82,7 +96,7 @@ namespace FlightDetector
                 OnPropertyChanged(nameof(MostCorrelatedLastValues));
             }
         }
-        
+
 
         public void OnPropertyChanged(string propertyName = null)
         {
@@ -90,12 +104,20 @@ namespace FlightDetector
         }
 
         // Constructor 
-        public LastValuesGraphViewModel(LastValuesGraphModel model, double timeStepsPerSecond, int timeStep)
+        public GraphsViewModel(GraphsModel model, double timeStepsPerSecond)
         {
             this._model = model;
-            // todo this._model.PropertyChanged += delegate(Object sender, PropertyChangedEventsArgs e) {NotifyPropertyChanged(e.PropertyName);};
             this._timeStepsPerSecond = timeStepsPerSecond;
-            this._timeStep = timeStep; // Todo remove?
+            this.TimeStep = 0; 
+            this.Features = GetFeatures();
+            if (this.Features != null)
+            {
+                this.SelectedFeature = this.Features[0];
+            }
+            else
+            {
+                this.SelectedFeature = "";
+            }
         }
 
 
@@ -110,12 +132,13 @@ namespace FlightDetector
 
         private bool IsSecondPassed(double time)
         {
-            return (time % 1) == 0;
+            double difference = Math.Abs(Math.Truncate(time) - time);
+            return (difference < MIN_EPSILON) || (difference > MAX_EPSILON);
         }
 
         private List<double> GetLastValues(string feature)
         {
-            return this._model.GetLastValues(this._timeStep, feature);
+            return this._model.GetLastValues(this._timeStep, this._timeStepsPerSecond, feature);
         }
 
         private string GetMostCorrelatedFeature()
