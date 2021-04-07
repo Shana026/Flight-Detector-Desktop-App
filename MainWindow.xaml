@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <local:FooterView></local:FooterView>
+        <local:FooterView DataContext="{Binding Path=FooterViewModel}"></local:FooterView>
     </Grid>
 </Window>

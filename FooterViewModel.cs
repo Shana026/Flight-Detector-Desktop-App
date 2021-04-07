@@ -22,7 +22,7 @@ namespace FlightDetector
             };
         }
         private int playbackSpeed;
-        public int VM_playbackSpeed
+        public int VM_PlaybackSpeed
         {
             get { return playbackSpeed; }
             set

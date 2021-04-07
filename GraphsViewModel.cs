@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FlightDetector.Annotations;
+using OxyPlot;
 
 namespace FlightDetector
 {
@@ -17,7 +19,14 @@ namespace FlightDetector
         public event PropertyChangedEventHandler PropertyChanged;
         private GraphsModel _model;
         private double _secondsPassed = 0;
+
         private double _timeStepsPerSecond;
+
+        public double TimeStepsPerSecond
+        {
+            get => this._timeStepsPerSecond;
+            set => this._timeStepsPerSecond = value;
+        }
 
         private string[] _features;
 
@@ -35,6 +44,7 @@ namespace FlightDetector
             set
             {
                 this._timeStep = value;
+                Trace.WriteLine("in graph model: " + _timeStep); // todo remove
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
                 this._secondsPassed += (1 / this._timeStepsPerSecond);
                 if (IsSecondPassed(this._secondsPassed))
@@ -71,6 +81,8 @@ namespace FlightDetector
                 OnPropertyChanged(nameof(SelectedLastValues));
             }
         }
+
+        public IList<DataPoint> SelectedFeaturePoints { get; private set; }
 
         private string _mostCorrelatedFeature;
 

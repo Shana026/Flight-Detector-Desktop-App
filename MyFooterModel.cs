@@ -24,7 +24,8 @@ namespace FlightDetector
             get { return nextLine; }
             set { 
                 nextLine = value;
-                NotifyPropertyChanged("nextLine");
+                Trace.WriteLine("in model" + nextLine);
+                NotifyPropertyChanged("NextLine");
             }
         }
 
@@ -35,6 +36,7 @@ namespace FlightDetector
             set
             {
                 playbackSpeed = value;
+                NotifyPropertyChanged("PlaybackSpeed");
             }
         }
 
