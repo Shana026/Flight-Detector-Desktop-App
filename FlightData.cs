@@ -14,7 +14,7 @@ namespace FlightDetector
 
         public string[] Features { get; }
 
-        FlightData(XmlParser xmlParser, string xmlPath, CsvParser csvParser, string csvPath)
+        public FlightData(XmlParser xmlParser, string xmlPath, CsvParser csvParser, string csvPath)
         {
             xmlParser.UploadXml(xmlPath);
             this.Features = xmlParser.GetFeatures();
@@ -31,6 +31,17 @@ namespace FlightDetector
         {
             int featureIndex = GetFeatureIndex(feature);
             return this._data[timeStep][featureIndex];
+        }
+
+        public double[] GetFeatureAllValues(string feature)
+        {
+            double[] allValues = new double[this.Size];
+            for (int i = 0; i < this.Size; i++)
+            {
+                allValues[i] = GetFeatureValue(i, feature);
+            }
+
+            return allValues;
         }
 
         private int GetFeatureIndex(string feature)

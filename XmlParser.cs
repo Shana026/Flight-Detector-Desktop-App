@@ -9,6 +9,7 @@ namespace FlightDetector
 {
     static class XmlParserConstants
     {
+        public const string Output = "output";
         public const string Chunk = "chunk";
         public const string Name = "name";
     }
