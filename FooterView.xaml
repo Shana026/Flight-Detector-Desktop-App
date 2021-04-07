@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="FlightDetector.FooterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightDetector"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ProgressBar Maximum="2174" Value ="{Binding Path = Value, ElementName=slider}"  HorizontalAlignment="Left" Height="79" Margin="99,64,0,0" VerticalAlignment="Top" Width="642" RenderTransformOrigin="0.5,0.5">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+        <Slider Minimum="0" Maximum="2174" x:Name="slider" Value ="{Binding VM_NextLine}"  IsSnapToTickEnabled="true" HorizontalAlignment="Left" Margin="99,258,0,0" VerticalAlignment="Top" Width="642" ValueChanged="slider_ValueChanged" />
+        <Button x:Name="stopButton" Content="stop" Margin="195,331,565,94" Height="25" Width="40" RenderTransformOrigin="-4.595,-1.416" Click="stopButton_Click"/>
+
+        <Button x:Name="playButton" Content="play" FontWeight="Bold" HorizontalAlignment="Left" Margin="122,331,0,0" VerticalAlignment="Top" Click="playButton_Click" Height="25" Width="40" FontSize="14" RenderTransformOrigin="0.518,0.275"/>
+        <Button x:Name="skipToTheStartButton" Content="skip to the start" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,332,760,93" VerticalAlignment="Top" Height="25" Width="40" RenderTransformOrigin="-4.595,-1.416"/>
+        <Button x:Name="backButton" Content="back" FontWeight="Bold" HorizontalAlignment="Left" Margin="62,332,698,93" Height="25" Width="40" RenderTransformOrigin="-4.595,-1.416"/>
+        <Button x:Name="fastForwardButton" Content="fast forward" FontWeight="Bold" HorizontalAlignment="Left" Margin="263,332,466,93" Height="25" RenderTransformOrigin="-4.595,-1.416"/>
+        <Button x:Name="skipToTheEndButton" Content="skip to the end" FontWeight="Bold" HorizontalAlignment="Left" Margin="362,332,322,93" Height="25" RenderTransformOrigin="-4.595,-1.416"/>
+
+
+        <ComboBox x:Name ="speeds" HorizontalAlignment="Left" Margin="621,331,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" IsEditable="True"
+                 IsReadOnly="True" Text="Normal">
+
+            <ComboBoxItem Content="0.25"/>
+            <ComboBoxItem Content="0.5"/>
+            <ComboBoxItem Content="0.75"/>
+            <ComboBoxItem Content="Normal"/>
+            <ComboBoxItem Content="1.25"/>
+            <ComboBoxItem Content="1.5"/>
+            <ComboBoxItem Content="1.75"/>
+            <ComboBoxItem Content="2"/>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="487,331,0,0" Text="Playback speed" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.477,-0.354" Height="22" Width="121" FontSize="16" FontWeight="Bold"/>
+
+    </Grid>
+</UserControl>
