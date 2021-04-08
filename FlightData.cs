@@ -18,8 +18,9 @@ namespace FlightDetector
         {
             xmlParser.UploadXml(xmlPath);
             this.Features = xmlParser.GetFeatures();
-            this.Size = this.Features.Length;
-            this._data = csvParser.DataToDictionary(csvParser.GetCsvLines(csvPath));
+            string[] lines = csvParser.GetCsvLines(csvPath);
+            this.Size = lines.Length;
+            this._data = csvParser.DataToDictionary(lines);
         }
 
         public double[] GetTimeStepData(int timeStep)
