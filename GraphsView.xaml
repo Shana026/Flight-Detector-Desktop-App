@@ -5,10 +5,49 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Margin="10" Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Features}" SelectedItem="{Binding SelectedFeature}"></ComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock.Inlines>
+                <Run FontWeight="Bold" Text="Selected Feature: "></Run>
+                <Run Text="{Binding Path=SelectedFeature}"></Run>
+            </TextBlock.Inlines>
+        </TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock.Inlines>
+                <Run FontWeight="Bold" Text="Most Correlated: "></Run>
+                <Run Text="{Binding Path=MostCorrelatedFeature}"></Run>
+            </TextBlock.Inlines>
+        </TextBlock>
+        
+
+        <lvc:CartesianChart x:Name="SelectedFeatureGraph" Height="200" Grid.Row="2" Grid.Column="0" Series="{Binding SelectedFeatureGraph}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis ShowLabels="False">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator IsEnabled="False"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MostCorrelatedGraph" Height="200" Grid.Row="2" Grid.Column="1" Series="{Binding MostCorrelatedGraph}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis ShowLabels="False">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator IsEnabled="False"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
     </Grid>
 </UserControl>

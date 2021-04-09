@@ -82,37 +82,21 @@ namespace FlightDetector
             private set
             {
                 this._selectedLastValues = value;
-                // this.SelectedFeaturePoints = BuildPoints(this._selectedLastValues);
-                // this.SeriesCollection = BuildSeriesCollection(this.SelectedLastValues);
-                UpdateChartValues();
+                UpdateChartValues(this.SelectedFeatureChartValues, _selectedLastValues);
                 OnPropertyChanged(nameof(SelectedLastValues));
             }
         }
 
-        public SeriesCollection SeriesCollection { get; set; }
+        public SeriesCollection SelectedFeatureGraph { get; set; }
 
-        public ChartValues<double> ChartValues { get; set; }
-
-        /*
-        private IList<DataPoint> _selectedFeaturePoints;
-
-        public IList<DataPoint> SelectedFeaturePoints
-        {
-            get => this._selectedFeaturePoints;
-            private set
-            {
-                this._selectedFeaturePoints = value;
-                OnPropertyChanged(nameof(SelectedFeaturePoints));
-            }
-        }
-        */
+        public ChartValues<double> SelectedFeatureChartValues { get; set; }
 
         private string _mostCorrelatedFeature;
 
         public string MostCorrelatedFeature
         {
             get => this._mostCorrelatedFeature;
-            private set
+            set
             {
                 this._mostCorrelatedFeature = value;
                 this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
@@ -128,25 +112,16 @@ namespace FlightDetector
             private set
             {
                 this._mostCorrelatedLastValues = value;
-                // this.MostCorrelatedPoints = BuildPoints(this._selectedLastValues);
+                UpdateChartValues(this.MostCorrelatedChartValues, _mostCorrelatedLastValues);
                 OnPropertyChanged(nameof(MostCorrelatedLastValues));
             }
         }
 
-        /*
-        private IList<DataPoint> _mostCorrelatedPoints;
+        public SeriesCollection MostCorrelatedGraph { get; set; }
 
-        public IList<DataPoint> MostCorrelatedPoints
-        {
-            get => this._mostCorrelatedPoints;
-            private set
-            {
-                this._mostCorrelatedPoints = value;
-                OnPropertyChanged(nameof(MostCorrelatedPoints));
-            }
-        }
+        public ChartValues<double> MostCorrelatedChartValues { get; set; }
 
-        */
+        // public Func<double, string> YFormmater { get; set; }
 
         public void OnPropertyChanged(string propertyName = null)
         {
@@ -156,22 +131,37 @@ namespace FlightDetector
         // Constructor 
         public GraphsViewModel(GraphsModel model, double timeStepsPerSecond)
         {
-            this.ChartValues = new ChartValues<double>();
+            this.SelectedFeatureChartValues = new ChartValues<double>();
+            this.MostCorrelatedChartValues = new ChartValues<double>();
             this._model = model;
             this._timeStepsPerSecond = timeStepsPerSecond;
             this.TimeStep = 0; 
             this.Features = GetFeatures();
-            // this.SelectedFeature = this.Features != null ? this.Features[0] : "";
-            this.SelectedFeature = "roll-deg"; // todo remove
-            UpdateChartValues();
+            this.SelectedFeature = this.Features != null ? this.Features[0] : "";
 
-            this.SeriesCollection = new SeriesCollection
+            UpdateChartValues(this.SelectedFeatureChartValues, SelectedLastValues);
+            UpdateChartValues(this.MostCorrelatedChartValues, MostCorrelatedLastValues);
+
+            this.SelectedFeatureGraph = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Values = this.ChartValues
+                    // Title = SelectedFeature,
+                    Values = this.SelectedFeatureChartValues,
+                    //  LabelPoint = point => String.Format("{0:0.00}", point),
                 }
             };
+
+            this.MostCorrelatedGraph = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    // Title = MostCorrelatedFeature,
+                    Values = this.SelectedFeatureChartValues
+                }
+            };
+
+            // YFormmater = value => value.ToString("C") + " hi";
         }
 
 
@@ -200,51 +190,21 @@ namespace FlightDetector
             return this._model.GetMostCorrelatedFeature(this._selectedFeature);
         }
 
-        /*
-        private IList<DataPoint> BuildPoints(List<double> values)
+        private void UpdateChartValues(ChartValues<double> chartValues, List<double> values)
         {
-            IList<DataPoint> points = new List<DataPoint>();
-            for (int i = 0; i < values.Count; i++)
-            {
-                DataPoint point = new DataPoint(i, values[i]);
-                points.Add(point);
-            }
-
-            return points;
-        }
-        */
-
-        private SeriesCollection BuildSeriesCollection(List<double> values)
-        {
-            ChartValues<double> cahrtValues = new ChartValues<double>();
-            for (int i = 0; i < values.Count; i++)
-            {
-                cahrtValues.Add(values[i]);
-            }
-
-            SeriesCollection series = new SeriesCollection();
-            Application.Current.Dispatcher.Invoke((Action)delegate {
-                // your code
-                series = new SeriesCollection
-                {
-                    new LineSeries
-                    {
-                        Values = cahrtValues
-                    }
-                };
-            });
-            
-            return series;
-        }
-
-        private void UpdateChartValues()
-        {
-            ChartValues.Clear();
+            /*
+            SelectedFeatureChartValues.Clear();
             {
                 for (int i = 0; i < SelectedLastValues.Count; i++)
                 {
-                    ChartValues.Add(SelectedLastValues[i]);
+                    SelectedFeatureChartValues.Add(SelectedLastValues[i]);
                 }
+            }
+            */
+            chartValues.Clear();
+            foreach (double value in values)
+            {
+                chartValues.Add(value);
             }
         }
     }
