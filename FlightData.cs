@@ -9,7 +9,7 @@ namespace FlightDetector
     class FlightData
     {
         private readonly Dictionary<int, double[]> _data;
-        
+
         public int Size { get; }
 
         public string[] Features { get; }

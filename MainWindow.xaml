@@ -8,5 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <local:FooterView></local:FooterView>
+		<local:dataDisplayView></local:dataDisplayView>
+		<local:joystick></local:joystick>
+		
     </Grid>
 </Window>

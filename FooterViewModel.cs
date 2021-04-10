@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FlightDetector
 {
-    class FooterViewModel: INotifyPropertyChanged
+    class FooterViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -22,20 +22,21 @@ namespace FlightDetector
             };
         }
         private int playbackSpeed;
-        public int VM_playbackSpeed
+        public int VM_PlaybackSpeed
         {
             get { return playbackSpeed; }
             set
             {
                 playbackSpeed = value;
-                model.PlaybackSpeed= value;
+                model.PlaybackSpeed = value;
             }
         }
         private Boolean play;
         public Boolean VM_play
         {
             get { return play; }
-            set { 
+            set
+            {
                 play = value;
                 model.play();
             }
@@ -44,7 +45,8 @@ namespace FlightDetector
         public int VM_NextLine
         {
             get { return model.NextLine; }
-            set {
+            set
+            {
                 model.nextLine = value;
             }
         }

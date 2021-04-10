@@ -18,6 +18,7 @@ namespace FlightDetector
         public void connect(string ip, int port)
         {
             client = new TcpClient("127.0.0.1", 5400);
+           
         }
 
         public void disconnect()
