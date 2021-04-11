@@ -35,6 +35,19 @@ namespace FlightDetector
             return lastValues;
         }
 
+
+        public double[] GetRangeValues(int start, int end, string feature)
+        {
+            double[] values = new double[end - start + 1];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Data.GetFeatureValue(start + i, feature);
+            }
+
+            return values;
+        }
+
+
         public string GetMostCorrelatedFeature(string feature)
         {
             double maxCorrelation = 0;

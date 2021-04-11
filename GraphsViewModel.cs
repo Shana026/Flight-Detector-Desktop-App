@@ -23,6 +23,7 @@ namespace FlightDetector
         public event PropertyChangedEventHandler PropertyChanged;
         private GraphsModel _model;
         private double _secondsPassed = 0;
+        private int _lastTimeStepAdded = 0;
 
         private double _timeStepsPerSecond;
 
@@ -47,15 +48,18 @@ namespace FlightDetector
             get => this._timeStep;
             set
             {
+                // bool isBackwards = IsBackwards(value, this._timeStep);
                 this._timeStep = value;
                 Trace.WriteLine("in graph model: " + _timeStep); // todo remove
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
                 this._secondsPassed += (1 / this._timeStepsPerSecond);
                 if (IsSecondPassed(this._secondsPassed))
                 {
-
-                    this.SelectedLastValues = GetLastValues(this._selectedFeature);
-                    this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
+                    UpdateLastValues(this.SelectedFeatureChartValues, SelectedFeature);
+                    UpdateLastValues(this.MostCorrelatedChartValues, MostCorrelatedFeature);
+                    this._lastTimeStepAdded = this._timeStep;
+                    // this.SelectedLastValues = GetLastValues(this._selectedFeature);
+                    // this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
                 }
             }
         }
@@ -68,14 +72,18 @@ namespace FlightDetector
             set
             {
                 this._selectedFeature = value;
-                this.SelectedLastValues = GetLastValues(this._selectedFeature);
+                // this.SelectedLastValues = GetLastValues(this._selectedFeature);
+                this._lastTimeStepAdded = 0;
+                this.SelectedFeatureChartValues.Clear();
+                UpdateLastValues(this.SelectedFeatureChartValues, this._selectedFeature);
                 this.MostCorrelatedFeature = GetMostCorrelatedFeature();
                 OnPropertyChanged(nameof(SelectedFeature));
             }
         }
 
-        private List<double> _selectedLastValues;
+        // private List<double> _selectedLastValues;
 
+        /*
         public List<double> SelectedLastValues
         {
             get => this._selectedLastValues;
@@ -86,6 +94,7 @@ namespace FlightDetector
                 OnPropertyChanged(nameof(SelectedLastValues));
             }
         }
+        */
 
         public SeriesCollection SelectedFeatureGraph { get; set; }
 
@@ -99,11 +108,14 @@ namespace FlightDetector
             set
             {
                 this._mostCorrelatedFeature = value;
-                this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
+                // this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
+                this.MostCorrelatedChartValues.Clear();
+                UpdateLastValues(this.MostCorrelatedChartValues, this._mostCorrelatedFeature);
                 OnPropertyChanged(nameof(MostCorrelatedFeature));
             }
         }
 
+        /*
         private List<double> _mostCorrelatedLastValues;
 
         public List<double> MostCorrelatedLastValues
@@ -116,6 +128,7 @@ namespace FlightDetector
                 OnPropertyChanged(nameof(MostCorrelatedLastValues));
             }
         }
+        */
 
         public SeriesCollection MostCorrelatedGraph { get; set; }
 
@@ -139,8 +152,10 @@ namespace FlightDetector
             this.Features = GetFeatures();
             this.SelectedFeature = this.Features != null ? this.Features[0] : "";
 
-            UpdateChartValues(this.SelectedFeatureChartValues, SelectedLastValues);
-            UpdateChartValues(this.MostCorrelatedChartValues, MostCorrelatedLastValues);
+            UpdateLastValues(this.SelectedFeatureChartValues, this.SelectedFeature);
+            UpdateLastValues(this.MostCorrelatedChartValues, this.SelectedFeature);
+            // UpdateChartValues(this.SelectedFeatureChartValues, SelectedLastValues);
+            // UpdateChartValues(this.MostCorrelatedChartValues, MostCorrelatedLastValues);
 
             this.SelectedFeatureGraph = new SeriesCollection
             {
@@ -157,7 +172,7 @@ namespace FlightDetector
                 new LineSeries
                 {
                     // Title = MostCorrelatedFeature,
-                    Values = this.SelectedFeatureChartValues
+                    Values = this.MostCorrelatedChartValues
                 }
             };
 
@@ -178,6 +193,31 @@ namespace FlightDetector
         {
             double difference = Math.Abs(Math.Truncate(time) - time);
             return (difference < MIN_EPSILON) || (difference > MAX_EPSILON);
+        }
+
+        private bool IsBackwards(int currentTimeStep, int lastTimeStep)
+        {
+            return lastTimeStep > currentTimeStep;
+        }
+
+        private void UpdateLastValues(ChartValues<double> values, string feature)
+        {
+            if (IsBackwards(this._timeStep, this._lastTimeStepAdded))
+            {
+
+                for (int i = values.Count - 1; i >= _timeStep; i--)
+                {
+                    values.RemoveAt(i);
+                }
+            }
+            else
+            {
+                double[] valuesToAdd = this._model.GetRangeValues(this._lastTimeStepAdded + 1, this._timeStep, feature);
+                foreach (double value in valuesToAdd)
+                {
+                    values.Add(value);
+                }
+            }
         }
 
         private List<double> GetLastValues(string feature)
