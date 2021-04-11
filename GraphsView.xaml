@@ -16,8 +16,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Margin="10" Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Features}" SelectedItem="{Binding SelectedFeature}"></ComboBox>
-        <TextBlock Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ComboBox Margin="10" 
+                  Grid.Row="0" Grid.ColumnSpan="2" 
+                  ItemsSource="{Binding Features}" 
+                  SelectedItem="{Binding SelectedFeature}"></ComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="0"  
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center">
             <TextBlock.Inlines>
                 <Run FontWeight="Bold" Text="Selected Feature: "></Run>
                 <Run Text="{Binding Path=SelectedFeature}"></Run>
