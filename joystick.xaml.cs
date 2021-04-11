@@ -24,17 +24,17 @@ namespace FlightDetector
         public joystick()
         {
             InitializeComponent();
-            XmlParser xmlParser = new XmlParser();
-            CsvParser csvParser = new CsvParser();
-            string csvPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv";
-            string xmlPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\playback_small.xml";
-            FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
-            vm = new joystickViewModel(new joystickModel(data));
+            //XmlParser xmlParser = new XmlParser();
+            //CsvParser csvParser = new CsvParser();
+            //string csvPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv";
+            //string xmlPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\playback_small.xml";
+            //FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
+            //vm = new joystickViewModel(new joystickModel(data));
             //vm = new joystickViewModel(new joystickModel());
-            DataContext = vm;
+            //DataContext = vm;
 
 
-            vm.TimeStep = 1;
+            //vm.TimeStep = 1;
 
         }
     }

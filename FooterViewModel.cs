@@ -47,6 +47,7 @@ namespace FlightDetector
             get { return model.NextLine; }
             set
             {
+                Trace.WriteLine("in footer view model: " + value);
                 model.nextLine = value;
             }
         }

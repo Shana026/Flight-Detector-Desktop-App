@@ -24,7 +24,7 @@ namespace FlightDetector
             get { return nextLine; }
             set { 
                 nextLine = value;
-                NotifyPropertyChanged("nextLine");
+                NotifyPropertyChanged("NextLine");
             }
         }
 
@@ -35,6 +35,7 @@ namespace FlightDetector
             set
             {
                 playbackSpeed = value;
+                NotifyPropertyChanged("PlaybackSpeed");
             }
         }
 

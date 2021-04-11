@@ -17,17 +17,12 @@ namespace FlightDetector
         // constructor
         public joystickViewModel(joystickModel m)
         {
-            //VM_Aileron = 1;
-            //VM_Elevator = 1;
-            //VM_Rudder = 0;
-            //VM_Throttle = 0;
-
             this.model = m;
 
             model.PropertyChanged +=   // to update the vm when the model change
-              delegate (Object sender, PropertyChangedEventArgs e) {
-                  NotifyPropertyChanged("VM_" + e.PropertyName);
-              };
+            delegate (Object sender, PropertyChangedEventArgs e) {
+                 NotifyPropertyChanged("VM_" + e.PropertyName);
+            };
         }
 
 
@@ -99,14 +94,17 @@ namespace FlightDetector
         {
             VM_Rudder = this.model.FlightData.GetFeatureValue(time, "rudder");
             VM_Throttle = this.model.FlightData.GetFeatureValue(time, "throttle");
-            VM_Aileron = this.model.FlightData.GetFeatureValue(time, "aileron");
-            VM_Elevator = this.model.FlightData.GetFeatureValue(time, "elevator");
+            //VM_Aileron = this.model.FlightData.GetFeatureValue(time, "aileron");
+            //VM_Elevator = this.model.FlightData.GetFeatureValue(time, "elevator");
 
-            //double ail = this.model.FlightData.GetFeatureValue(time, "aileron");
-            //double elev = this.model.FlightData.GetFeatureValue(time, "elevator");
+            double ail = this.model.FlightData.GetFeatureValue(time, "aileron");
+            double elev = this.model.FlightData.GetFeatureValue(time, "elevator");
 
-            //VM_Aileron = (ail - 1) * 21.25;
-            //VM_Elevator = (elev + 1) * 21.25;
+           // VM_Aileron = (ail + 1) * 21.25; //ou 42.5
+           // VM_Elevator = (1 - elev) * 21.25;
+
+            VM_Aileron = ail * 100;
+            VM_Elevator = elev * (-100);
         }
 
 

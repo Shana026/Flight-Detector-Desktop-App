@@ -5,11 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightDetector"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <local:FooterView></local:FooterView>
-		<local:dataDisplayView></local:dataDisplayView>
-		<local:joystick></local:joystick>
-		
+        Title="MainWindow" Height="800" Width="1500">
+
+
+    <Grid Margin="0,-3,0,3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <local:dataDisplayView Grid.Column="0" DataContext="{Binding Path=DataDisplayViewModel}" Margin="430,10,-430,-85" Grid.RowSpan="2" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <local:joystick Grid.Row="0" Grid.Column="0" DataContext="{Binding Path=JoystickViewModel}"></local:joystick>
+        <local:FooterView Grid.Column="0" DataContext="{Binding Path=FooterViewModel}" Grid.ColumnSpan="4" Margin="750,39,-750,58"/>
     </Grid>
+
 </Window>

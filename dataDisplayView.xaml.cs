@@ -20,19 +20,19 @@ namespace FlightDetector
     /// </summary>
     public partial class dataDisplayView : UserControl
     {
-        dataDisplayViewModel vm;
+        //dataDisplayViewModel vm;
         public dataDisplayView()
         {
             InitializeComponent();
-            XmlParser xmlParser = new XmlParser();
-            CsvParser csvParser = new CsvParser();
-            string csvPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv";
-            string xmlPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\playback_small.xml";
-            FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
-            vm = new dataDisplayViewModel(new dataDisplayModel(data));
-            DataContext = vm;
+            //XmlParser xmlParser = new XmlParser();
+            //CsvParser csvParser = new CsvParser();
+            //string csvPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv";
+            //string xmlPath = "C:\\Users\\Shana\\source\\repos\\FlightDetector\\playback_small.xml";
+            //FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
+            //vm = new dataDisplayViewModel(new dataDisplayModel(data));
+            //DataContext = vm;
 
-            vm.TimeStep = 1;
+            //vm.TimeStep = 1;
         }
     }
 }

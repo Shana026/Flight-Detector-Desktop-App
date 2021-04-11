@@ -21,78 +21,13 @@ namespace FlightDetector
         }
 
 
-        /*
-        private double altimeter;
-        private double airspeed;
-        private double heading;
-        private double yaw;
-        private double roll;
-        private double pitch;
-        //properties
-        public double Altimeter
-        {
-            get { return altimeter; }
-            set
-            {
-                altimeter = value;
-                NotifyPropertyChanged("Altimeter");
-            }
-        }
-        public double Airspeed
-        {
-            get { return airspeed; }
-            set
-            {
-                airspeed = value;
-                NotifyPropertyChanged("Airspeed");
-            }
-        }
-        public double Heading
-        {
-            get { return heading; }
-            set
-            {
-                heading = value;
-                NotifyPropertyChanged("Heading");
-            }
-        }
-        public double Pitch
-        {
-            get { return pitch; }
-            set
-            {
-                pitch = value;
-                NotifyPropertyChanged("Pitch");
-            }
-        }
-        public double Roll
-        {
-            get { return roll; }
-            set
-            {
-                roll = value;
-                NotifyPropertyChanged("Roll");
-            }
-        }
-        public double Yaw
-        {
-            get { return yaw; }
-            set
-            {
-                yaw = value;
-                NotifyPropertyChanged("Yaw");
-            }
-        }
-        */
-
-
         // constructor
         public dataDisplayModel(FlightData data)
         {
             flightData = data;
         }
 
-        // dire que le feature propName a ete change
+
         // call the event propertyChanged when any property of class is changed
         public void NotifyPropertyChanged(string propName)
         {

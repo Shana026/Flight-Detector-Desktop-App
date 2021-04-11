@@ -23,7 +23,8 @@ namespace FlightDetector
         public MainWindow()
         {
             InitializeComponent();
-
+            MainViewModel mainViewModel = new MainViewModel("C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv");
+            DataContext = mainViewModel;
         }
     }
 }

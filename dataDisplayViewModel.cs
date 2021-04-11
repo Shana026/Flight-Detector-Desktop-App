@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,13 +24,6 @@ namespace FlightDetector
               delegate (Object sender, PropertyChangedEventArgs e) {
                   NotifyPropertyChanged("VM_" + e.PropertyName);
               };
-
-            //VM_Altimeter = 10;
-            //VM_Airspeed = 20;
-            //VM_Heading = 30;
-           // VM_Pitch = 40;
-            //VM_Roll = 50;
-           // VM_Yaw = 60;
         }
 
 
@@ -42,6 +36,7 @@ namespace FlightDetector
             set
             {
                 timeStep = value;
+                Trace.WriteLine("in data dis[lay view model: " + value);
                 UpdateVars(timeStep);
             }
         }
@@ -112,20 +107,43 @@ namespace FlightDetector
             }
         }
 
+       /* private double vm_aileron;
+        public double VM_Aileron
+        {
+            get { return vm_aileron; }
+            set
+            {
+                vm_aileron = value;
+                NotifyPropertyChanged(nameof(VM_Aileron));
+            }
+        }
 
 
+        private double vm_elevator;
+        public double VM_Elevator
+        {
+            get { return vm_elevator; }
+            set
+            {
+                vm_elevator = value;
+                NotifyPropertyChanged(nameof(VM_Elevator));
+            }
+        }
+
+        */
         // Methods
 
 
         void UpdateVars(int time)
         {
-            
             VM_Altimeter = this.model.FlightData.GetFeatureValue(time, "altimeter_indicated-altitude-ft");
             VM_Airspeed = this.model.FlightData.GetFeatureValue(time, "airspeed-kt");
             VM_Heading = this.model.FlightData.GetFeatureValue(time, "heading-deg");
             VM_Pitch = this.model.FlightData.GetFeatureValue(time, "pitch-deg");
             VM_Roll = this.model.FlightData.GetFeatureValue(time, "roll-deg");
             VM_Sideslip = this.model.FlightData.GetFeatureValue(time, "side-slip-deg");
+            //VM_Aileron = this.model.FlightData.GetFeatureValue(time, "aileron");
+           // VM_Elevator = this.model.FlightData.GetFeatureValue(time, "elevator");
         }
 
         // call the event propertyChanged when any property of the class is changed

@@ -12,10 +12,6 @@ namespace FlightDetector
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //private double aileron;
-        // private double elevator;
-        //private double rudder;
-        //private double throttle;
 
         //properties
 
@@ -27,52 +23,10 @@ namespace FlightDetector
             set { }
         }
 
-        /* public double Aileron
-         {
-             get { return aileron; }
-             set
-             {
-                 aileron = value;
-                 NotifyPropertyChanged("Aileron");
-             }
-         }
-         public double Elevator
-         {
-             get { return elevator; }
-             set
-             {
-                 elevator = value;
-                 NotifyPropertyChanged("Elevator");
-             }
-         }
-         public double Rudder
-         {
-             get { return rudder; }
-             set
-             {
-                 rudder = value;
-                 NotifyPropertyChanged("Rudder");
-             }
-         }
-         public double Throttle
-         {
-             get { return throttle; }
-             set
-             {
-                 throttle = value;
-                 NotifyPropertyChanged("Throttle");
-             }
-         }
- */
-
+        
         // constructor
         public joystickModel(FlightData data)
         {
-            //aileron = -50;
-            // elevator = 50;
-            //throttle = 1;
-            // rudder = 1;
-
            flightData = data;
         }
 
