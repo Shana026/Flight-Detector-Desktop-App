@@ -21,7 +21,6 @@ namespace FlightDetector
             set
             {
                 _timeStep = value;
-                Trace.WriteLine("in main viewModel: " + _timeStep); // todo remove
                 UpdateViewModelsTimeStepChanged();
             }
         }
