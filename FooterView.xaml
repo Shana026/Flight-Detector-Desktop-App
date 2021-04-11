@@ -7,16 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ProgressBar Maximum="2174" Value ="{Binding Path = Value, ElementName=slider}"  HorizontalAlignment="Left" Height="79" Margin="99,64,0,0" VerticalAlignment="Top" Width="642" RenderTransformOrigin="0.5,0.5">
-            <ProgressBar.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ProgressBar.RenderTransform>
-        </ProgressBar>
+        
         <Slider Minimum="0" Maximum="2174" x:Name="slider" Value ="{Binding VM_NextLine}"  IsSnapToTickEnabled="true" HorizontalAlignment="Left" Margin="99,258,0,0" VerticalAlignment="Top" Width="642" ValueChanged="slider_ValueChanged" />
         <Button x:Name="playButton" Content="play" FontWeight="Bold" HorizontalAlignment="Left" Margin="165,328,0,0" VerticalAlignment="Top" Click="playButton_Click" Height="25" Width="40" FontSize="14" RenderTransformOrigin="0.518,0.275"/>
         <Button x:Name="skipToTheStartButton" FontWeight="Bold" Content="skip to the start" HorizontalAlignment="Left" Margin="0,328,0,0" VerticalAlignment="Top" Height="25" Width="110" FontSize="14"/>

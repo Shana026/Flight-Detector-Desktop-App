@@ -35,13 +35,26 @@ namespace FlightDetector
             return lastValues;
         }
 
+
+        public double[] GetRangeValues(int start, int end, string feature)
+        {
+            double[] values = new double[end - start + 1];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Data.GetFeatureValue(start + i, feature);
+            }
+
+            return values;
+        }
+
+
         public string GetMostCorrelatedFeature(string feature)
         {
+            // todo implement via FlightData
             double maxCorrelation = 0;
             string mostCorrelated = "";
             double[] featureAllValues = this._data.GetFeatureAllValues(feature);
             string[] features = this._data.Features;
-            // todo maybe we need to check only features that are of greater column (like in semester A)
             for (int i = 0; i < features.Length; i++)
             {
                 if (features[i] == feature) // we don't want to check correlation to the same feature

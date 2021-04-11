@@ -27,17 +27,17 @@ namespace FlightDetector
         public FooterView()
         {
             InitializeComponent();
-            vm = new FooterViewModel(new MyFooterModel(new Client()));
-            DataContext = vm;
-            vm.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
-            {
-            };
+            // vm = new FooterViewModel(new MyFooterModel(new Client()));
+            // DataContext = vm;
+            //vm.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            //{
+            //};
             ComboBox speeds = new ComboBox();
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.VM_play = true;
+            ((FooterViewModel)this.DataContext).VM_play = true;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,40 +51,40 @@ namespace FlightDetector
             switch (speeds.SelectedItem.ToString().Split(new string[] { ": " }, StringSplitOptions.None).Last())
             {
                 case "0.25":
-                    vm.VM_playbackSpeed = 400;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 400;
                     break;
                 case "0.5":
-                    vm.VM_playbackSpeed = 200;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 200;
                     break;
                 case "0.75":
-                    vm.VM_playbackSpeed = 133;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 133;
                     break;
                 case "Normal":
-                    vm.VM_playbackSpeed = 100;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 100;
                     break;
                 case "1.25":
-                    vm.VM_playbackSpeed = 80;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 80;
                     break;
                 case "1.5":
-                    vm.VM_playbackSpeed = 66;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 66;
                     break;
                 case "1.75":
-                    vm.VM_playbackSpeed = 57;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 57;
                     break;
                 case "2":
-                    vm.VM_playbackSpeed = 50;
+                    ((FooterViewModel)this.DataContext).VM_PlaybackSpeed = 50;
                     break;
             }
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            vm.VM_NextLine = Convert.ToInt32(slider.Value.ToString());
+            ((FooterViewModel)this.DataContext).VM_NextLine = Convert.ToInt32(slider.Value.ToString());
         }
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.stopPlay();
+            ((FooterViewModel)this.DataContext).stopPlay();
         }
     }
 }
