@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,11 +26,34 @@ namespace FlightDetector
         private string dllPath;
         private AnomalyDetectorType detectorType;
 
+        public string[] DetectorTypes { get; set; }
+
+        public string selectedType;
+
+        public string SelectedType
+        {
+            get => selectedType;
+            set
+            {
+                selectedType = value;
+                if (value == "Linear Regression based")
+                {
+                    this.detectorType = AnomalyDetectorType.LinearRegression;
+                }
+                else if (value == "Min Circle based")
+                {
+                    this.detectorType = AnomalyDetectorType.MinCircle;
+                }
+            }
+        }
+
         public HomePage()
         {
             InitializeComponent();
             ShowsNavigationUI = false;
             DataContext = this;
+            this.DetectorTypes = new string[] {"Linear Regression based", "Min Circle based"};
+            this.SelectedType = this.DetectorTypes[0];
         }
 
         private void UploadValidFlightButton_OnClick(object sender, RoutedEventArgs e)
@@ -75,6 +99,11 @@ namespace FlightDetector
             {
                 flightToDetectPath = dialog.FileName;
             }
+        }
+
+        private void NavigateToMainPageButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new MainPage(validFlightPath, flightToDetectPath, dllPath, detectorType));
         }
     }
 }

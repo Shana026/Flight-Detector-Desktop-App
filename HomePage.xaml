@@ -57,7 +57,7 @@
 
         <!-- Choose a Flight to detect -->
         <TextBlock Grid.Row="3" Grid.Column="1"
-                   Text="Please choose a CSV file for the valid flight:"
+                   Text="Please choose a CSV file for the flight to detect:"
                    FontSize="16"
                    Margin="0, 0, 0, 15"></TextBlock>
 
@@ -81,5 +81,24 @@
                 Height="25"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Click="UploadDllButton_OnClick"></Button>
+
+        <!-- Choose Anomaly Detector type -->
+        <TextBlock Grid.Row="5" Grid.Column="1"
+                   Text="Please choose an Anomaly Detector type:"
+                   FontSize="16"
+                   Margin="0, 0, 0, 15"></TextBlock>
+
+        <ComboBox Grid.Row="5" Grid.Column="2"
+                  Height="25"
+                  Margin="10, 0, 0, 0"
+                  ItemsSource="{Binding Path=DetectorTypes}"
+                  SelectedItem="{Binding Path=SelectedType}"
+                  ></ComboBox>
+
+        <Button x:Name="NavigateToMainPageButton" Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="10"
+                HorizontalAlignment="Right"
+                Margin="20"
+                Click="NavigateToMainPageButton_OnClick"
+                Content="Start Flying"></Button>
     </Grid>
 </Page>

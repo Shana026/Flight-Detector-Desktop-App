@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightDetector
 {
-    enum AnomalyDetectorType
+    public enum AnomalyDetectorType
     {
         LinearRegression, MinCircle
     }
@@ -38,6 +38,11 @@ namespace FlightDetector
         public float[] GetLinearRegression(string feature)
         {
             return new float[2]; // todo implement
+        }
+
+        public float[] GetMinCircle(string feature)
+        {
+            return new float[3]; // todo implement
         }
 
         public int[] GetAllAnomaliesTimesSteps()
