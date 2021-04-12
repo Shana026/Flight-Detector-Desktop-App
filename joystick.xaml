@@ -95,7 +95,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <local:LastValuesGraphView HorizontalAlignment="Left" Margin="345,196,0,0" VerticalAlignment="Top"/>
+        <local:GraphsView HorizontalAlignment="Left" Margin="345,196,0,0" VerticalAlignment="Top"/>
         <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="27" Margin="282,10,0,0" Text="🢦 Aileron 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="236" FontSize="26"/>
 
     </Grid>

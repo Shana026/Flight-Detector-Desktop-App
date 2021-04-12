@@ -91,8 +91,11 @@ namespace FlightDetector
             set
             {
                 this._mostCorrelatedFeature = value;
-                this.MostCorrelatedChartValues.Clear();
-                UpdateLastValues(this.MostCorrelatedChartValues, this._mostCorrelatedFeature);
+                if (this._mostCorrelatedFeature != null)
+                {
+                    this.MostCorrelatedChartValues.Clear();
+                    UpdateLastValues(this.MostCorrelatedChartValues, this._mostCorrelatedFeature);
+                }
                 OnPropertyChanged(nameof(MostCorrelatedFeature));
             }
         }
@@ -107,9 +110,12 @@ namespace FlightDetector
         }
 
 
+        // todo add max values of axes
+
         public SeriesCollection AnomalyDetectionGraph { get; set; }
-        public ChartValues<ScatterPoint> Threshold { get; set; }
-        public ChartValues<ScatterPoint> FeaturesValues { get; set; }
+        public ChartValues<ScatterPoint> ThresholdValues { get; set; }
+        public ChartValues<ScatterPoint> NormalFeaturesValues { get; set; }
+        public ChartValues<ScatterPoint> AnomalyFeaturesValues { get; set; }
 
 
         // Constructor 
@@ -141,6 +147,11 @@ namespace FlightDetector
                     Values = this.MostCorrelatedChartValues
                 }
             };
+
+            // this.NormalFeaturesValues = new ChartValues<ScatterPoint>();
+            // this.AnomalyFeaturesValues = new ChartValues<ScatterPoint>();
+            // this.ThresholdValues = new ChartValues<ScatterPoint>();
+            // this.AnomalyDetectionGraph = BuildDetectionSeriesCollection();
         }
 
 
@@ -191,17 +202,65 @@ namespace FlightDetector
 
         private SeriesCollection BuildDetectionSeriesCollection()
         {
-            Series series;
+            this.ThresholdValues.Clear(); // when building the graph we need to erase what was there before
+
+            BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
             if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
             {
-                series = new LineSeries();
+                this.ThresholdValues = BuildLinearRegressionValues();
             }
-            else
+            else // Min Circle
             {
-                series = new ScatterSeries();
+                this.ThresholdValues = BuildMinCircleValues();
             }
 
-            return new SeriesCollection(series);
+            SeriesCollection detectionSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Values = this.ThresholdValues
+                },
+                new ScatterSeries
+                {
+                    Values = this.NormalFeaturesValues
+                },
+                new ScatterSeries
+                {
+                    Values = this.AnomalyFeaturesValues
+                }
+            };
+
+            return detectionSeries;
+        }
+
+        private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
+        {
+            List<double> selectedFeatureValues =
+                this._model.GetLastValues(this.TimeStep, this.TimeStepsPerSecond, this.SelectedFeature);
+            List<double> mostCorrelatedValues =
+                this._model.GetLastValues(this.TimeStep, this.TimeStepsPerSecond, this.MostCorrelatedFeature);
+
+            normal.Clear();
+            anomaly.Clear();
+
+            int index = 0;
+            for (int i = this.TimeStep - 30; i < selectedFeatureValues.Count; i++) // todo to constant
+            {
+                if (IsTimeStepAnomaly(i))
+                {
+                    anomaly.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                }
+                else
+                {
+                    normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                }
+            }
+        }
+
+        private bool IsTimeStepAnomaly(int timeStep)
+        {
+            int[] allAnomaliesTimeSteps = this._model.GetAllAnomaliesTimeSteps();
+            return Array.Exists(allAnomaliesTimeSteps, anomaly => timeStep == anomaly);
         }
 
         private ChartValues<ScatterPoint> BuildLinearRegressionValues()
@@ -226,8 +285,9 @@ namespace FlightDetector
 
         private double GetMaxXValue()
         {
-            double max = this.FeaturesValues[0].X;
-            foreach (ScatterPoint point in this.FeaturesValues)
+            // todo max between normal and anomaly
+            double max = this.NormalFeaturesValues[0].X;
+            foreach (ScatterPoint point in this.NormalFeaturesValues)
             {
                 if (max < point.X)
                 {
@@ -240,8 +300,9 @@ namespace FlightDetector
 
         private double GetMinXValue()
         {
-            double min = this.FeaturesValues[0].X;
-            foreach (ScatterPoint point in this.FeaturesValues)
+            // todo min between normal and anomaly
+            double min = this.NormalFeaturesValues[0].X;
+            foreach (ScatterPoint point in this.NormalFeaturesValues)
             {
                 if (min > point.X)
                 {
@@ -256,20 +317,54 @@ namespace FlightDetector
         {
             var correlationData = this._model.GetCorrelationData();
 
+            float[] circleCenterAndRadius = correlationData[this.SelectedFeature].Value;
 
+            double centerX = circleCenterAndRadius[0];
+            double radius = circleCenterAndRadius[2];
 
-            return new ChartValues<ScatterPoint>();
+            ChartValues<ScatterPoint> circle = new ChartValues<ScatterPoint>();
+
+            double i = 0;
+            while (i < centerX + radius)
+            {
+                double[] res = GetCircleY(circleCenterAndRadius, i);
+                ScatterPoint p1 = new ScatterPoint(i, res[0], 1);
+                ScatterPoint p2 = new ScatterPoint(i, res[1], 1);
+                circle.Add(p1);
+                circle.Add(p2);
+
+                if (i - centerX + radius < 0.05 || centerX + radius - i < 0.05)
+                {
+                    i += 0.001;
+                }
+                else
+                {
+                    i += 0.01;
+                }
+            }
+
+            return circle;
         }
 
-        private double GetCircleY(float[] circle, double x)
+        private double[] GetCircleY(float[] circle, double x)
         {
+            // according to circle equation
             double centerX = circle[0];
             double centerY = circle[1];
             double radius = circle[2];
 
+            double xElement = Math.Pow((centerX - x), 2);
+            double radiusSquared = Math.Pow(radius, 2);
+            double centerYSquared = Math.Pow(centerY, 2);
 
+            double inSqrt = 4 * centerYSquared - 4 * (xElement + centerYSquared - radiusSquared);
 
-            return 0;
+            double y1 = (2 * centerY + Math.Sqrt(inSqrt)) / 2;
+            double y2 = (2 * centerY - Math.Sqrt(inSqrt)) / 2;
+
+            double[] result = {y1, y2};
+
+            return result;
         }
     }
 }

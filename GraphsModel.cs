@@ -46,6 +46,12 @@ namespace FlightDetector
         }
 
 
+        public int[] GetAllAnomaliesTimeSteps()
+        {
+            return this._data.AllAnomaliesTimeSteps;
+        }
+
+
         public double[] GetRangeValues(int start, int end, string feature)
         {
             double[] values = new double[end - start + 1];
@@ -73,17 +79,19 @@ namespace FlightDetector
                 }
                 double[] tempFeatureAllValues = this._data.GetFeatureAllValues(features[i]);
                 double tempCorrelation = Math.Abs(StatisticsUtil.Pearson(featureAllValues, tempFeatureAllValues));
-
+            
                 if (tempCorrelation <= maxCorrelation)
                 {
                     continue;
                 }
-
+            
                 maxCorrelation = tempCorrelation;
                 mostCorrelated = features[i];
             }
-
+            
             return mostCorrelated;
+
+            // return this._data.GetCorrelatedFeature(feature);
         }
     }
 }

@@ -19,9 +19,9 @@ namespace FlightDetector
     /// <summary>
     /// Interaction logic for LastValuesGraphView.xaml
     /// </summary>
-    public partial class LastValuesGraphView : UserControl
+    public partial class GraphsView : UserControl
     {
-        public LastValuesGraphView()
+        public GraphsView()
         {
             InitializeComponent();
         }
