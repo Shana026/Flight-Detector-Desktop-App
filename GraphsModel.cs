@@ -30,9 +30,19 @@ namespace FlightDetector
             {
                 lastValues.Add(this._data.GetFeatureValue(i, feature));
             }
-
+        
             lastValues.Reverse(); // we got the data in backwards order for convenience. but we want it in the right order
             return lastValues;
+        }
+
+        public AnomalyDetectorType GetDetectorType()
+        {
+            return this._data.GetDetectorType();
+        }
+
+        public Dictionary<string, KeyValuePair<string, float[]>> GetCorrelationData()
+        {
+            return this._data.CorrelationData;
         }
 
 

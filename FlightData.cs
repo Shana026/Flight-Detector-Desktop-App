@@ -10,7 +10,13 @@ namespace FlightDetector
     {
         private readonly Dictionary<int, double[]> _data;
 
-        private Dictionary<string, KeyValuePair<string, float[]>> _correlationData;
+        private AnomalyDetectorType _detectorType;
+
+        public Dictionary<string, KeyValuePair<string, float[]>> CorrelationData
+        {
+            get;
+            private set;
+        }
 
         private int[] _allAnomaliesTimeSteps;
 
@@ -40,6 +46,7 @@ namespace FlightDetector
             this.Size = lines.Length;
             this._data = csvParser.DataToDictionary(lines);
             BuildCorrelationData(detector);
+            this._detectorType = detector.DetectorType;
             this.AllAnomaliesTimeSteps = detector.GetAllAnomaliesTimesSteps();
         }
 
@@ -67,13 +74,22 @@ namespace FlightDetector
 
         public string GetCorrelatedFeature(string feature)
         {
-            return this._correlationData[feature].Key; // the key of correlation data is the correlative feature
+            return this.CorrelationData[feature].Key; // the key of correlation data is the correlative feature
         }
 
         public float[] GetLinearRegression(string feature)
         {
-            return this._correlationData[feature].Value; // the value of correlation is the linear regression
+            return this.CorrelationData[feature].Value; // the value of correlation is the linear regression
         }
+
+        public AnomalyDetectorType GetDetectorType()
+        {
+            return this._detectorType;
+        }
+
+
+        // Private Methods
+
 
         private int GetFeatureIndex(string feature)
         {
@@ -90,14 +106,23 @@ namespace FlightDetector
 
         private void BuildCorrelationData(AnomalyDetector detector)
         {
-            this._correlationData = new Dictionary<string, KeyValuePair<string, float[]>>();
+            this.CorrelationData = new Dictionary<string, KeyValuePair<string, float[]>>();
             foreach (var feature in this.Features)
             {
                 string correlatedFeature = detector.GetMostCorrelativeFeature(feature);
-                float[] linearRegression = detector.GetLinearRegression(feature);
+                float[] threshold;
+                
+                if (detector.DetectorType == AnomalyDetectorType.LinearRegression)
+                {
+                    threshold = detector.GetLinearRegression(feature);
+                }
+                else
+                {
+                    threshold = detector.GetMinCircle(feature);
+                }
                 KeyValuePair<string, float[]> correlationData =
-                    new KeyValuePair<string, float[]>(correlatedFeature, linearRegression);
-                this._correlationData.Add(feature, correlationData);
+                    new KeyValuePair<string, float[]>(correlatedFeature, threshold);
+                this.CorrelationData.Add(feature, correlationData);
             }
         }
     }

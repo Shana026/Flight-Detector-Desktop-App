@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FlightDetector.Annotations;
+using InteractiveDataDisplay.WPF;
 //using OxyPlot;
 // using OxyPlot.Series;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
 namespace FlightDetector
@@ -48,7 +50,6 @@ namespace FlightDetector
             get => this._timeStep;
             set
             {
-                // bool isBackwards = IsBackwards(value, this._timeStep);
                 this._timeStep = value;
                 Trace.WriteLine("in graph model: " + _timeStep); // todo remove
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
@@ -58,8 +59,6 @@ namespace FlightDetector
                     UpdateLastValues(this.SelectedFeatureChartValues, SelectedFeature);
                     UpdateLastValues(this.MostCorrelatedChartValues, MostCorrelatedFeature);
                     this._lastTimeStepAdded = this._timeStep;
-                    // this.SelectedLastValues = GetLastValues(this._selectedFeature);
-                    // this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
                 }
             }
         }
@@ -72,7 +71,6 @@ namespace FlightDetector
             set
             {
                 this._selectedFeature = value;
-                // this.SelectedLastValues = GetLastValues(this._selectedFeature);
                 this._lastTimeStepAdded = 0;
                 this.SelectedFeatureChartValues.Clear();
                 UpdateLastValues(this.SelectedFeatureChartValues, this._selectedFeature);
@@ -80,21 +78,6 @@ namespace FlightDetector
                 OnPropertyChanged(nameof(SelectedFeature));
             }
         }
-
-        // private List<double> _selectedLastValues;
-
-        /*
-        public List<double> SelectedLastValues
-        {
-            get => this._selectedLastValues;
-            private set
-            {
-                this._selectedLastValues = value;
-                UpdateChartValues(this.SelectedFeatureChartValues, _selectedLastValues);
-                OnPropertyChanged(nameof(SelectedLastValues));
-            }
-        }
-        */
 
         public SeriesCollection SelectedFeatureGraph { get; set; }
 
@@ -108,38 +91,26 @@ namespace FlightDetector
             set
             {
                 this._mostCorrelatedFeature = value;
-                // this.MostCorrelatedLastValues = GetLastValues(this._mostCorrelatedFeature);
                 this.MostCorrelatedChartValues.Clear();
                 UpdateLastValues(this.MostCorrelatedChartValues, this._mostCorrelatedFeature);
                 OnPropertyChanged(nameof(MostCorrelatedFeature));
             }
         }
 
-        /*
-        private List<double> _mostCorrelatedLastValues;
-
-        public List<double> MostCorrelatedLastValues
-        {
-            get => this._mostCorrelatedLastValues;
-            private set
-            {
-                this._mostCorrelatedLastValues = value;
-                UpdateChartValues(this.MostCorrelatedChartValues, _mostCorrelatedLastValues);
-                OnPropertyChanged(nameof(MostCorrelatedLastValues));
-            }
-        }
-        */
-
         public SeriesCollection MostCorrelatedGraph { get; set; }
 
         public ChartValues<double> MostCorrelatedChartValues { get; set; }
-
-        // public Func<double, string> YFormmater { get; set; }
 
         public void OnPropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        public SeriesCollection AnomalyDetectionGraph { get; set; }
+        public ChartValues<ScatterPoint> Threshold { get; set; }
+        public ChartValues<ScatterPoint> FeaturesValues { get; set; }
+
 
         // Constructor 
         public GraphsViewModel(GraphsModel model, double timeStepsPerSecond)
@@ -154,16 +125,12 @@ namespace FlightDetector
 
             UpdateLastValues(this.SelectedFeatureChartValues, this.SelectedFeature);
             UpdateLastValues(this.MostCorrelatedChartValues, this.SelectedFeature);
-            // UpdateChartValues(this.SelectedFeatureChartValues, SelectedLastValues);
-            // UpdateChartValues(this.MostCorrelatedChartValues, MostCorrelatedLastValues);
 
             this.SelectedFeatureGraph = new SeriesCollection
             {
                 new LineSeries
                 {
-                    // Title = SelectedFeature,
-                    Values = this.SelectedFeatureChartValues,
-                    //  LabelPoint = point => String.Format("{0:0.00}", point),
+                    Values = this.SelectedFeatureChartValues
                 }
             };
 
@@ -171,12 +138,9 @@ namespace FlightDetector
             {
                 new LineSeries
                 {
-                    // Title = MostCorrelatedFeature,
                     Values = this.MostCorrelatedChartValues
                 }
             };
-
-            // YFormmater = value => value.ToString("C") + " hi";
         }
 
 
@@ -220,32 +184,92 @@ namespace FlightDetector
             }
         }
 
-        private List<double> GetLastValues(string feature)
-        {
-            return this._model.GetLastValues(this._timeStep, this._timeStepsPerSecond, feature);
-        }
-
         private string GetMostCorrelatedFeature()
         {
             return this._model.GetMostCorrelatedFeature(this._selectedFeature);
         }
 
-        private void UpdateChartValues(ChartValues<double> chartValues, List<double> values)
+        private SeriesCollection BuildDetectionSeriesCollection()
         {
-            /*
-            SelectedFeatureChartValues.Clear();
+            Series series;
+            if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
             {
-                for (int i = 0; i < SelectedLastValues.Count; i++)
+                series = new LineSeries();
+            }
+            else
+            {
+                series = new ScatterSeries();
+            }
+
+            return new SeriesCollection(series);
+        }
+
+        private ChartValues<ScatterPoint> BuildLinearRegressionValues()
+        {
+            var correlationData = this._model.GetCorrelationData();
+            float[] line = correlationData[this.SelectedFeature].Value;
+
+            double beginX = GetMinXValue() - GetMinXValue() * 0.1;
+            double beginY = line[0] * beginX + line[1];
+
+            double endX = GetMaxXValue() + GetMaxXValue() * 0.1;
+            double endY = line[0] * endX + line[1];
+
+            ChartValues<ScatterPoint> lineChartValues = new ChartValues<ScatterPoint>
+            {
+                new(beginX, beginY),
+                new(endX, endY)
+            };
+
+            return lineChartValues;
+        }
+
+        private double GetMaxXValue()
+        {
+            double max = this.FeaturesValues[0].X;
+            foreach (ScatterPoint point in this.FeaturesValues)
+            {
+                if (max < point.X)
                 {
-                    SelectedFeatureChartValues.Add(SelectedLastValues[i]);
+                    max = point.X;
                 }
             }
-            */
-            chartValues.Clear();
-            foreach (double value in values)
+
+            return max;
+        }
+
+        private double GetMinXValue()
+        {
+            double min = this.FeaturesValues[0].X;
+            foreach (ScatterPoint point in this.FeaturesValues)
             {
-                chartValues.Add(value);
+                if (min > point.X)
+                {
+                    min = point.X;
+                }
             }
+
+            return min;
+        }
+
+        private ChartValues<ScatterPoint> BuildMinCircleValues()
+        {
+            var correlationData = this._model.GetCorrelationData();
+
+
+
+            return new ChartValues<ScatterPoint>();
+        }
+
+        private double GetCircleY(float[] circle, double x)
+        {
+            double centerX = circle[0];
+            double centerY = circle[1];
+            double radius = circle[2];
+
+
+
+            return 0;
         }
     }
 }
