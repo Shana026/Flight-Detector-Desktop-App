@@ -18,6 +18,21 @@ namespace FlightDetector
         double csvNumOfLine;
         Boolean hasDone = false;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public AnomalyDetector anomalyDetector; //added
+        public AnomalyDetector AnomalyDetector
+        {
+            get { return anomalyDetector; }
+            set {}
+        }
+
+        private FlightData flightData; ///added
+        public FlightData FlightData
+        {
+            get { return flightData; }
+            set { }
+        }
+
         public int nextLine;
         public int NextLine
         {
@@ -39,8 +54,10 @@ namespace FlightDetector
             }
         }
 
-        public MyFooterModel(IClient Client)
+        public MyFooterModel(IClient Client, FlightData data, AnomalyDetector ad) ////added
         {
+            this.anomalyDetector = ad; //added
+            this.flightData = data; /////added
             this.client = Client;
             this.playbackSpeed = 100;
             stop = false;

@@ -33,6 +33,7 @@ namespace FlightDetector
             //{
             //};
             ComboBox speeds = new ComboBox();
+            ComboBox anomalies = new ComboBox(); //added
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +41,7 @@ namespace FlightDetector
             ((FooterViewModel)this.DataContext).VM_play = true;
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Speeds_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Handle();
 
@@ -76,6 +77,20 @@ namespace FlightDetector
                     break;
             }
         }
+
+        private void Anomalies_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)//added
+        {
+            Handles();
+           
+        }
+
+        private void Handles() //added
+        {
+            string anomalie = anomalies.SelectedItem.ToString().Split(new string[] { ": " }, StringSplitOptions.None).Last();
+            int time = int.Parse(anomalie);
+            ((FooterViewModel)this.DataContext).VM_NextLine = time;
+        }
+
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

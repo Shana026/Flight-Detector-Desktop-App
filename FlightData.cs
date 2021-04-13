@@ -8,6 +8,8 @@ namespace FlightDetector
 {
     class FlightData
     {
+        public int[] anomaliesList = { 1, 50, 100, 200, 500, 645, 234, 900, 1000, 1500 }; //added
+
         private readonly Dictionary<int, double[]> _data;
 
         public int Size { get; }

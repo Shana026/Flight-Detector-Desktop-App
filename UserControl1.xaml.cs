@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace FlightDetector
 {
     /// <summary>
-    /// Interaction logic for UserControlTest.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControlTest : UserControl
+    public partial class UserControl1 : UserControl
     {
-        public UserControlTest()
+        public UserControl1()
         {
             InitializeComponent();
         }

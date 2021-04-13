@@ -49,6 +49,7 @@ namespace FlightDetector
                         <node>
                     </chunk>
                  */
+                int i = 0;
                 foreach (XmlNode node in outputNode.ChildNodes)
                 {
                     if (node.Name == XmlParserConstants.Chunk)
@@ -57,7 +58,9 @@ namespace FlightDetector
                         {
                             if (chunkChildNode.Name == XmlParserConstants.Name)
                             {
+                              
                                 features.Add(chunkChildNode.InnerText);
+                               
                             }
                         }
                     }

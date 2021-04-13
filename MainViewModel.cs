@@ -5,6 +5,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace FlightDetector
 {
@@ -80,12 +91,18 @@ namespace FlightDetector
 
         public MainViewModel(string csvPath) // todo how to get path?
         {
+            AnomalyDetector anomalyDetector = new AnomalyDetector("", "",0); //added
+            anomalyDetector.learnNormalFromCSV(new StringBuilder("train.csv")); //added
+            anomalyDetector.detectFromCSV(new StringBuilder("test.csv")); //added
+            //anomalyDetector.learnNormalFromCSV(new StringBuilder("C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv"));
+            //anomalyDetector.detectFromCSV(new StringBuilder("C:\\Users\\Shana\\source\\repos\\FlightDetector\\anomaly_flight.csv"));
+
             XmlParser xmlParser = new XmlParser();
             string xmlPath = XML_PATH;
             CsvParser csvParser = new CsvParser();
             FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
 
-            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()));
+            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client(),data,anomalyDetector));  //changed
             this.FooterViewModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs args)
             {
                 OnFooterPropertyChange(args);

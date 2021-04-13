@@ -37,5 +37,10 @@ namespace FlightDetector
             //vm.TimeStep = 1;
 
         }
+
+        private void ThrottleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }

@@ -26,5 +26,15 @@ namespace FlightDetector
             MainViewModel mainViewModel = new MainViewModel("C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv");
             DataContext = mainViewModel;
         }
+
+        private void joystick_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void joystick_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
