@@ -21,75 +21,40 @@ namespace FlightDetector
     /// <summary>
     /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainPage : Page, INotifyPropertyChanged
+    public partial class MainPage : Page
     {
-        public string _validFlight;
-        public string ValidFlight
-        {
-            get => _validFlight;
-            set
-            {
-                _validFlight = value;
-                OnPropertyChanged(nameof(ValidFlight));
-            }
-        }
-
-        public string _flightToDetect;
-        public string FlightToDetect
-        {
-            get => _flightToDetect;
-            set
-            {
-                _flightToDetect = value;
-                OnPropertyChanged(nameof(FlightToDetect));
-            }
-        }
-
-        public string _dllPath;
-
-        public string DllPath
-        {
-            get => _dllPath;
-            set
-            {
-                _dllPath = value;
-                OnPropertyChanged(nameof(DllPath));
-            }
-        }
-
-        public string _detectorType;
-        public string DetectorType
-        {
-            get => _detectorType;
-            set
-            {
-                _detectorType = value;
-                OnPropertyChanged(nameof(DetectorType));
-            }
-        }
+        private bool isCsvValid = true;
 
         public MainPage(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType)
         {
             InitializeComponent();
-            ValidFlight = validFlightPath;
-            FlightToDetect = flightToDetectPath;
-            DllPath = dllPath;
-            if (detectorType == AnomalyDetectorType.LinearRegression)
+            try
             {
-                DetectorType = "Linear Regression";
+                MainViewModel mainViewModel = new MainViewModel(validFlightPath);
+                DataContext = mainViewModel;
             }
-            else if (detectorType == AnomalyDetectorType.MinCircle)
+            catch (FormatException e)
             {
-                DetectorType = "Min Circle";
+                MessageBox.Show("CSV file is not in the right format. Please choose again");
+                // ReturnToHomePage();
+                isCsvValid = false;
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void ReturnHomeButton_onClick(object sender, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            ReturnToHomePage();
+        }
+
+        private void ReturnToHomePage()
+        {
+            this.NavigationService.Navigate(new HomePage());
+        }
+
+        private void ReturnHomeIfCsvNotValid(object sender, RoutedEventArgs e)
+        {
+            if (!isCsvValid)
+                ReturnToHomePage();
         }
     }
 }

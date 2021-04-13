@@ -19,11 +19,33 @@ namespace FlightDetector
     /// <summary>
     /// Interaction logic for LastValuesGraphView.xaml
     /// </summary>
-    public partial class LastValuesGraphView : UserControl
+    public partial class GraphsView : UserControl
     {
-        public LastValuesGraphView()
+        public GraphsView()
         {
             InitializeComponent();
+        }
+
+
+        private void ListenToViewModel(object sender, RoutedEventArgs e)
+        {
+            if ((GraphsViewModel) this.DataContext == null)
+            {
+                return;
+            }
+            ((GraphsViewModel)this.DataContext).PropertyChanged += (o, args) =>
+            {
+                if (args.PropertyName == "MostCorrelatedFeature" && string.IsNullOrEmpty(((GraphsViewModel) DataContext).MostCorrelatedFeature))
+                {
+                    this.MostCorrelatedGraph.Visibility = Visibility.Hidden;
+                    this.MostCorrelatedTextBlock.Visibility = Visibility.Hidden;
+                    this.NoMostCorrelatedTextBlock.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Trace.WriteLine("Some property changed");
+                }
+            };
         }
     }
 }

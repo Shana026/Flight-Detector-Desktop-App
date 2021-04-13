@@ -65,7 +65,17 @@ namespace FlightDetector
             XmlParser xmlParser = new XmlParser();
             string xmlPath = XML_PATH;
             CsvParser csvParser = new CsvParser();
-            FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
+            FlightData data;
+            try
+            {
+                data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+                return;
+            }
+            
             this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()));
             this.FooterViewModel.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
             {
