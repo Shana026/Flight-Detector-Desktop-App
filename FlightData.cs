@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -134,7 +135,7 @@ namespace FlightDetector
 
         private void CreateCsvWithTitles(string originalFilePath, string newFilePath, string[] features, CsvParser csvParser)
         {
-            string featuresLine = string.Join("", features);
+            string featuresLine = string.Join(",", features);
             string[] dataLines = csvParser.GetCsvLines(originalFilePath);
             string[] allLines = new string[dataLines.Length + 1];
             allLines[0] = featuresLine;
