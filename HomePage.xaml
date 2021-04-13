@@ -56,6 +56,10 @@
                 Margin="10, 0, 0, 0" 
                 HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
 
+        <TextBlock Grid.Row="2" Grid.Column="3"
+                   Text="{Binding Path=ValidFlightPath}"
+                   FontSize="16"
+                   Margin="10, 0, 0, 15"></TextBlock>
 
         <!-- Choose a Flight to detect -->
         <TextBlock Grid.Row="3" Grid.Column="1"

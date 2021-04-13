@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -103,6 +104,11 @@ namespace FlightDetector
 
         private void NavigateToMainPageButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (validFlightPath == null || flightToDetectPath == null || dllPath == null)
+            {
+                MessageBox.Show("Please upload all files!");
+                return;
+            }
             this.NavigationService.Navigate(new MainPage(validFlightPath, flightToDetectPath, dllPath, detectorType));
         }
     }
