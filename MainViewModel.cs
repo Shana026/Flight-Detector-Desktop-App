@@ -58,6 +58,24 @@ namespace FlightDetector
         }
 
 
+        private joystickViewModel _joystickViewModel;
+
+        public joystickViewModel JoystickViewModel
+        {
+            get { return _joystickViewModel; }
+            set { _joystickViewModel = value; }
+        }
+
+        private dataDisplayViewModel _dataDisplayViewModel;
+
+        public dataDisplayViewModel DataDisplayViewModel
+        {
+            get { return _dataDisplayViewModel; }
+            set { _dataDisplayViewModel = value; }
+        }
+
+
+
         // Constructor
 
         public MainViewModel(string validFlightPath, string flightToDetectPath, AnomalyDetectorType detectorType) // todo how to get path?
@@ -74,6 +92,8 @@ namespace FlightDetector
                 OnFooterPropertyChange(args);
             };
             this.GraphsViewModel = new GraphsViewModel(new GraphsModel(data), (int)1000 / DEFAULT_SPEED);
+            this.JoystickViewModel = new joystickViewModel(new joystickModel(data));
+            this.DataDisplayViewModel = new dataDisplayViewModel(new dataDisplayModel(data));
         }
 
         private static string[] GetFeatures(out XmlParser xmlParser, out string xmlPath)
@@ -101,6 +121,8 @@ namespace FlightDetector
         private void UpdateViewModelsTimeStepChanged()
         {
             this.GraphsViewModel.TimeStep = this.TimeStep;
+            this.DataDisplayViewModel.TimeStep = this.TimeStep;
+            this.JoystickViewModel.TimeStep = this.TimeStep;
             // todo add other viewModels here
         }
 

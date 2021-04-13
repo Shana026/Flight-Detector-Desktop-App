@@ -93,7 +93,7 @@ namespace FlightDetector
         void UpdateVars(int time)
         {
             VM_Rudder = this.model.FlightData.GetFeatureValue(time, "rudder");
-            VM_Throttle = this.model.FlightData.GetFeatureValue(time, "throttle");
+            VM_Throttle = this.model.FlightData.GetFeatureValue(time, "throttle 1");
             //VM_Aileron = this.model.FlightData.GetFeatureValue(time, "aileron");
             //VM_Elevator = this.model.FlightData.GetFeatureValue(time, "elevator");
 

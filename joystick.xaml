@@ -11,7 +11,7 @@
 
         <Slider x:Name="RudderSlider" Value="{Binding VM_Rudder}" Background="CadetBlue"  Minimum="-1" Maximum="1" HorizontalAlignment="Left" Height="28" Margin="120,421,0,0" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.5,0.5" />
         <TextBlock FontSize="26" HorizontalAlignment="Left" Margin="245,466,0,15" Text="🢦 Rudder 🢧" TextWrapping="Wrap" Width="152" Grid.ColumnSpan="2" RenderTransformOrigin="0.473,1.219"/>
-        <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle}" Background="SkyBlue"  Minimum="0" Maximum="1" HorizontalAlignment="Left" Height="30" Margin="-60,210,0,0" VerticalAlignment="Top" Width="307" RenderTransformOrigin="0.5,0.5" ValueChanged="ThrottleSlider_ValueChanged">
+        <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle}" Background="SkyBlue"  Minimum="0" Maximum="1" HorizontalAlignment="Left" Height="30" Margin="-60,210,0,0" VerticalAlignment="Top" Width="307" RenderTransformOrigin="0.5,0.5" >
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -93,7 +93,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <local:LastValuesGraphView HorizontalAlignment="Left" Margin="345,196,0,0" VerticalAlignment="Top"/>
+        
         <TextBlock HorizontalAlignment="Left" Height="41" Margin="245,10,0,0" Text="🢦 Aileron 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="236" FontSize="26"/>
     </Grid>
         </Viewbox>

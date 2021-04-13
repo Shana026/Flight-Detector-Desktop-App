@@ -131,6 +131,10 @@ namespace FlightDetector
         {
             this.SelectedFeatureChartValues = new ChartValues<double>();
             this.MostCorrelatedChartValues = new ChartValues<double>();
+            this.NormalFeaturesValues = new ChartValues<ScatterPoint>();
+            this.AnomalyFeaturesValues = new ChartValues<ScatterPoint>();
+            this.ThresholdValues = new ChartValues<ScatterPoint>();
+
             this._model = model;
             this._timeStepsPerSecond = timeStepsPerSecond;
             this.TimeStep = 0;
@@ -164,9 +168,6 @@ namespace FlightDetector
                 }
             };
 
-            this.NormalFeaturesValues = new ChartValues<ScatterPoint>();
-            this.AnomalyFeaturesValues = new ChartValues<ScatterPoint>();
-            this.ThresholdValues = new ChartValues<ScatterPoint>();
             this.AnomalyDetectionGraph = new SeriesCollection
             {
                 new LineSeries
