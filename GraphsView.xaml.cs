@@ -29,6 +29,10 @@ namespace FlightDetector
 
         private void ListenToViewModel(object sender, RoutedEventArgs e)
         {
+            if ((GraphsViewModel) this.DataContext == null)
+            {
+                return;
+            }
             ((GraphsViewModel)this.DataContext).PropertyChanged += (o, args) =>
             {
                 if (args.PropertyName == "MostCorrelatedFeature" && string.IsNullOrEmpty(((GraphsViewModel) DataContext).MostCorrelatedFeature))

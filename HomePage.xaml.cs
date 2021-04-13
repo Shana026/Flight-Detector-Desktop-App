@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Sockets;
 
 namespace FlightDetector
 {
@@ -106,10 +107,30 @@ namespace FlightDetector
         {
             if (validFlightPath == null || flightToDetectPath == null || dllPath == null)
             {
-                MessageBox.Show("Please upload all files!");
+                MessageBox.Show("Please upload all files!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (!IsFlightgearOpen())
+            {
+                
+                MessageBox.Show("Please open FlightGear and make sure the settings match the instructions", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             this.NavigationService.Navigate(new MainPage(validFlightPath, flightToDetectPath, dllPath, detectorType));
+        }
+
+        private bool IsFlightgearOpen()
+        {
+            try
+            {
+                TcpClient client = new TcpClient("127.0.0.1", 5400);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

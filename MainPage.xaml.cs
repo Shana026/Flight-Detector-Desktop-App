@@ -23,11 +23,38 @@ namespace FlightDetector
     /// </summary>
     public partial class MainPage : Page
     {
+        private bool isCsvValid = true;
+
         public MainPage(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType)
         {
             InitializeComponent();
-            MainViewModel mainViewModel = new MainViewModel(validFlightPath);
-            DataContext = mainViewModel;
+            try
+            {
+                MainViewModel mainViewModel = new MainViewModel(validFlightPath);
+                DataContext = mainViewModel;
+            }
+            catch (FormatException e)
+            {
+                MessageBox.Show("CSV file is not in the right format. Please choose again");
+                // ReturnToHomePage();
+                isCsvValid = false;
+            }
+        }
+
+        private void ReturnHomeButton_onClick(object sender, RoutedEventArgs e)
+        {
+            ReturnToHomePage();
+        }
+
+        private void ReturnToHomePage()
+        {
+            this.NavigationService.Navigate(new HomePage());
+        }
+
+        private void ReturnHomeIfCsvNotValid(object sender, RoutedEventArgs e)
+        {
+            if (!isCsvValid)
+                ReturnToHomePage();
         }
     }
 }

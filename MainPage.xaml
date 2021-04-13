@@ -46,7 +46,10 @@
         </Grid>
         -->
 
-        <DockPanel>
+        <DockPanel Loaded="ReturnHomeIfCsvNotValid">
+            <Button x:Name="ReturnHomeButton" Content="Return Home"
+                    Click="ReturnHomeButton_onClick"></Button>
+
             <StackPanel DockPanel.Dock="Right">
                 <local:GraphsView Height="400" Width="600" Margin="10"
                                   HorizontalAlignment="Right"
