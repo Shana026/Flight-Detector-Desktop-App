@@ -12,22 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.InteropServices;
 
 namespace FlightDetector
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for joystick.xaml
     /// </summary>
-    /// 
-
-    public partial class MainWindow : Window
+    public partial class joystick : UserControl
     {
-        public MainWindow(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType)
+        joystickViewModel vm;
+        public joystick()
         {
             InitializeComponent();
-            MainViewModel mainViewModel = new MainViewModel(validFlightPath, flightToDetectPath, detectorType);
-            DataContext = mainViewModel;
         }
     }
 }

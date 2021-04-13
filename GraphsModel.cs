@@ -35,6 +35,22 @@ namespace FlightDetector
             return lastValues;
         }
 
+        public AnomalyDetectorType GetDetectorType()
+        {
+            return this._data.GetDetectorType();
+        }
+
+        public Dictionary<string, KeyValuePair<string, float[]>> GetCorrelationData()
+        {
+            return this._data.CorrelationData;
+        }
+
+
+        public int[] GetAllAnomaliesTimeSteps()
+        {
+            return this._data.AllAnomaliesTimeSteps;
+        }
+
 
         public double[] GetRangeValues(int start, int end, string feature)
         {
@@ -74,6 +90,8 @@ namespace FlightDetector
             }
 
             return mostCorrelated;
+
+            // return this._data.GetCorrelatedFeature(feature);
         }
     }
 }

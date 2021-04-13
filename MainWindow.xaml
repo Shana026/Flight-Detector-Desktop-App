@@ -23,7 +23,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         
-        <local:LastValuesGraphView Margin="10" Grid.Column="1" Grid.Row="1" DataContext="{Binding Path=GraphsViewModel}"></local:LastValuesGraphView>
+        
         <local:FooterView Grid.Column="1" Grid.Row="2" DataContext="{Binding Path=FooterViewModel}"></local:FooterView>
     </Grid>
 </Window>

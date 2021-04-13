@@ -60,18 +60,29 @@ namespace FlightDetector
 
         // Constructor
 
-        public MainViewModel(string csvPath) // todo how to get path?
+        public MainViewModel(string validFlightPath, string flightToDetectPath, AnomalyDetectorType detectorType) // todo how to get path?
         {
-            XmlParser xmlParser = new XmlParser();
-            string xmlPath = XML_PATH;
+            var features = GetFeatures(out var xmlParser, out var xmlPath);
             CsvParser csvParser = new CsvParser();
-            FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
+            // FlightData data = new FlightData(xmlParser, xmlPath, csvParser, validFlightPath);
+            AnomalyDetector detector = new AnomalyDetector("", "", detectorType);
+            FlightData data = new FlightData(csvParser, validFlightPath, flightToDetectPath, detector, features);
+
             this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()));
-            this.FooterViewModel.PropertyChanged += delegate(object sender, PropertyChangedEventArgs args)
+            this.FooterViewModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs args)
             {
                 OnFooterPropertyChange(args);
             };
-            this.GraphsViewModel = new GraphsViewModel(new GraphsModel(data), (int) 1000 / DEFAULT_SPEED);
+            this.GraphsViewModel = new GraphsViewModel(new GraphsModel(data), (int)1000 / DEFAULT_SPEED);
+        }
+
+        private static string[] GetFeatures(out XmlParser xmlParser, out string xmlPath)
+        {
+            xmlParser = new XmlParser();
+            xmlPath = XML_PATH;
+            xmlParser.UploadXml(xmlPath);
+            string[] features = xmlParser.GetFeatures();
+            return features;
         }
 
         private void OnFooterPropertyChange(PropertyChangedEventArgs args)
@@ -95,7 +106,7 @@ namespace FlightDetector
 
         private void UpdateViewModlesSpeedChanged()
         {
-            this.GraphsViewModel.TimeStepsPerSecond = (int) 1000 / this.Speed;
+            this.GraphsViewModel.TimeStepsPerSecond = (int)1000 / this.Speed;
         }
     }
 }

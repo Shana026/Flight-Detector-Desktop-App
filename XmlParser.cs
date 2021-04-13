@@ -27,7 +27,7 @@ namespace FlightDetector
         public string[] GetFeatures()
         {
             XmlNode outputNode = this._document.GetElementsByTagName("output")[0];
-            
+
             // getting list first because we don't know how many features the XML contains
             List<string> features = ExtractFeaturesList(outputNode);
 
@@ -50,6 +50,7 @@ namespace FlightDetector
                         <node>
                     </chunk>
                  */
+                int count = 0;
                 foreach (XmlNode node in outputNode.ChildNodes)
                 {
                     if (node.Name == XmlParserConstants.Chunk)
@@ -58,7 +59,14 @@ namespace FlightDetector
                         {
                             if (chunkChildNode.Name == XmlParserConstants.Name)
                             {
-                                features.Add(chunkChildNode.InnerText);
+                                string name = chunkChildNode.InnerText;
+                                if (features.Count > 0 && name == features[count - 1])
+                                {
+                                    features[count - 1] += " 1";
+                                    name += " 2";
+                                }
+                                features.Add(name);
+                                count++;
                             }
                         }
                     }
