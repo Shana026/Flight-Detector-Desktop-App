@@ -28,47 +28,53 @@
             </Grid.ColumnDefinitions>
             <Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="2174" x:Name="slider" Value ="{Binding VM_NextLine}"  IsSnapToTickEnabled="true" HorizontalAlignment="Left" VerticalAlignment="Top" Width="642" ValueChanged="slider_ValueChanged" />
             <DockPanel Grid.Row="2" Grid.Column="1">
-                <Button x:Name="playButton" Content="play" FontWeight="Bold" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top" 
-                    Click="playButton_Click" 
-                    Height="25" Width="40" FontSize="14" RenderTransformOrigin="0.518,0.275"/>
-                <Button x:Name="skipToTheStartButton" FontWeight="Bold" Content="skip to the start" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top" Height="25" Width="110" FontSize="14"/>
-                <Button x:Name="backButton" Content="back" FontWeight="Bold" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top" Height="25" Width="40" FontSize="14" 
-                    RenderTransformOrigin="0.915,0.476"/>
-                <Button x:Name="fastForwardButton" Content="fast forward" FontWeight="Bold" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="25" Width="94" FontSize="14"/>
-                <Button x:Name="skipToTheEndButton" Content="skip to the end" FontWeight="Bold" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    RenderTransformOrigin="1.194,0.967" Height="25" Width="109" FontSize="14"/>
-                <Button x:Name="stopButton" Content="stop" FontWeight="Bold" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    RenderTransformOrigin="0.06,0.579" Height="25" Width="40" FontSize="14"/>
 
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="Playback Speed" 
-                           TextWrapping="Wrap" 
-                           VerticalAlignment="Center" 
-                           RenderTransformOrigin="0.477,-0.354" 
-                           Height="22" Width="121" FontSize="16" FontWeight="Bold"
-                           Margin="10"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="playButton" Content="play" FontWeight="Bold" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top" 
+                            Click="playButton_Click" 
+                            Height="25" Width="40" FontSize="14" RenderTransformOrigin="0.518,0.275"/>
+                    <Button x:Name="skipToTheStartButton" FontWeight="Bold" Content="skip to the start" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top" Height="25" Width="110" FontSize="14"/>
+                    <Button x:Name="backButton" Content="back" FontWeight="Bold" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top" Height="25" Width="40" FontSize="14" 
+                            RenderTransformOrigin="0.915,0.476"/>
+                    <Button x:Name="fastForwardButton" Content="fast forward" FontWeight="Bold" 
+                            HorizontalAlignment="Left" VerticalAlignment="Top" 
+                            Height="25" Width="94" FontSize="14"/>
+                    <Button x:Name="skipToTheEndButton" Content="skip to the end" FontWeight="Bold" 
+                            HorizontalAlignment="Left" VerticalAlignment="Top" 
+                            RenderTransformOrigin="1.194,0.967" Height="25" Width="109" FontSize="14"/>
+                    <Button x:Name="stopButton" Content="stop" FontWeight="Bold" 
+                            HorizontalAlignment="Left" VerticalAlignment="Top" 
+                            RenderTransformOrigin="0.06,0.579" Height="25" Width="40" FontSize="14"/>
+                </StackPanel>
+                
 
-                <ComboBox Grid.Row="2" Grid.Column="1" x:Name ="speeds" VerticalAlignment="Center" Width="120" SelectionChanged="ComboBox_SelectionChanged" IsEditable="True"
-                          IsReadOnly="True" Text="Normal">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Playback Speed" 
+                               TextWrapping="Wrap" 
+                               VerticalAlignment="Center" 
+                               RenderTransformOrigin="0.477,-0.354" 
+                               Height="22" Width="121" FontSize="16" FontWeight="Bold"
+                               Margin="10"/>
 
-                    <ComboBoxItem Content="0.25"/>
-                    <ComboBoxItem Content="0.5"/>
-                    <ComboBoxItem Content="0.75"/>
-                    <ComboBoxItem Content="Normal"/>
-                    <ComboBoxItem Content="1.25"/>
-                    <ComboBoxItem Content="1.5"/>
-                    <ComboBoxItem Content="1.75"/>
-                    <ComboBoxItem Content="2"/>
-                </ComboBox>
+                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name ="speeds" VerticalAlignment="Center" Width="120" SelectionChanged="ComboBox_SelectionChanged" IsEditable="True"
+                              IsReadOnly="True" Text="Normal">
+
+                        <ComboBoxItem Content="0.25"/>
+                        <ComboBoxItem Content="0.5"/>
+                        <ComboBoxItem Content="0.75"/>
+                        <ComboBoxItem Content="Normal"/>
+                        <ComboBoxItem Content="1.25"/>
+                        <ComboBoxItem Content="1.5"/>
+                        <ComboBoxItem Content="1.75"/>
+                        <ComboBoxItem Content="2"/>
+                    </ComboBox>
+                </StackPanel>
             </DockPanel>
         </Grid>
     </Border>
