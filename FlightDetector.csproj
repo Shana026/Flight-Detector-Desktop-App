@@ -4,12 +4,28 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="InteractiveDataDisplay.WPF" Version="1.0.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MinCircleDll">
+      <HintPath>..\..\..\source\repos\MinCircle\Debug\MinCircleDll.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAnomalyDetector">
+      <HintPath>..\..\..\source\repos\SimpleAnomalyDetector\Debug\SimpleAnomalyDetector.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
