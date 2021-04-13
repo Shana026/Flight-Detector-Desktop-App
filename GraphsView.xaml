@@ -5,83 +5,117 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="350">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!-- Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        </>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions -->
+        <DockPanel>
+            <StackPanel>
+                <ComboBox Margin="10" 
+                          Grid.Row="0" Grid.ColumnSpan="2" 
+                          ItemsSource="{Binding Features}" 
+                          SelectedItem="{Binding SelectedFeature}"></ComboBox>
 
-        <ComboBox Margin="10" 
-                  Grid.Row="0" Grid.ColumnSpan="2" 
-                  ItemsSource="{Binding Features}" 
-                  SelectedItem="{Binding SelectedFeature}"></ComboBox>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="1" Grid.Column="0"  
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center">
-            <TextBlock.Inlines>
-                <Run FontWeight="Bold" Text="Selected Feature: "></Run>
-                <Run Text="{Binding Path=SelectedFeature}"></Run>
-            </TextBlock.Inlines>
-        </TextBlock>
-        <TextBlock x:Name="MostCorrelatedTextBlock" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Loaded="ListenToViewModel">
-            <TextBlock.Inlines>
-                <Run FontWeight="Bold" Text="Most Correlated: "></Run>
-                <Run Text="{Binding Path=MostCorrelatedFeature}"></Run>
-            </TextBlock.Inlines>
-        </TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="0"  
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center">
+                        <TextBlock.Inlines>
+                            <Run FontWeight="Bold" Text="Selected Feature: "></Run>
+                            <Run Text="{Binding Path=SelectedFeature}"></Run>
+                        </TextBlock.Inlines>
+                    </TextBlock>
 
+                    <TextBlock x:Name="MostCorrelatedTextBlock" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" Loaded="ListenToViewModel">
+                        <TextBlock.Inlines>
+                            <Run FontWeight="Bold" Text="Most Correlated: "></Run>
+                            <Run Text="{Binding Path=MostCorrelatedFeature}"></Run>
+                        </TextBlock.Inlines>
+                    </TextBlock>
 
-        <lvc:CartesianChart x:Name="SelectedFeatureGraph" 
-                            Hoverable="False" 
-                            Height="200" 
-                            Grid.Row="2" Grid.Column="0"
-                            DataTooltip="{x:Null}"
-                            DisableAnimations="True">
-            <lvc:CartesianChart.Series>
-                <lvc:LineSeries Values="{Binding Path=SelectedFeatureChartValues}"
-                                PointGeometry="{x:Static lvc:DefaultGeometries.None}">
-                </lvc:LineSeries>
-            </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis ShowLabels="False">
-                    <lvc:Axis.Separator>
-                        <lvc:Separator IsEnabled="False"></lvc:Separator>
-                    </lvc:Axis.Separator>
-                </lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
+                    <lvc:CartesianChart x:Name="SelectedFeatureGraph" 
+                                        Hoverable="False" 
+                                        Grid.Row="1" Grid.Column="0"
+                                        Height="200"
+                                        DataTooltip="{x:Null}"
+                                        DisableAnimations="True">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries  Values="{Binding Path=SelectedFeatureChartValues}"
+                                             PointGeometry="{x:Static lvc:DefaultGeometries.None}">
+                            </lvc:LineSeries>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis ShowLabels="False">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator IsEnabled="False"></lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
 
-        <TextBlock x:Name="NoMostCorrelatedTextBlock"
-                   Grid.Row="2" Grid.Column="1"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Visibility="Hidden"
-                   Text="There is no feature that is correlated enough to this feature"></TextBlock>
+                    <TextBlock x:Name="NoMostCorrelatedTextBlock"
+                               Grid.Row="1" Grid.Column="1"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Visibility="Hidden"
+                               Text="There is no feature that is correlated enough to this feature"></TextBlock>
 
-        <lvc:CartesianChart x:Name="MostCorrelatedGraph" 
-                            Height="200" 
-                            Grid.Row="2" Grid.Column="1"
-                            Hoverable="False"
-                            DataTooltip="{x:Null}"
-                            DisableAnimations="True">
-            <lvc:CartesianChart.Series>
-                <lvc:LineSeries Values="{Binding Path=MostCorrelatedChartValues}"
-                                PointGeometry="{x:Static lvc:DefaultGeometries.None}">
-                </lvc:LineSeries>
-            </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis ShowLabels="False">
-                    <lvc:Axis.Separator>
-                        <lvc:Separator IsEnabled="False"></lvc:Separator>
-                    </lvc:Axis.Separator>
-                </lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
+                    <lvc:CartesianChart x:Name="MostCorrelatedGraph" 
+                                        Grid.Row="1" Grid.Column="1"
+                                        Height="200"
+                                        Hoverable="False"
+                                        DataTooltip="{x:Null}"
+                                        DisableAnimations="True">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries Values="{Binding Path=MostCorrelatedChartValues}"
+                                            PointGeometry="{x:Static lvc:DefaultGeometries.None}">
+                            </lvc:LineSeries>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis ShowLabels="False">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator IsEnabled="False"></lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </Grid>
+
+                <lvc:CartesianChart x:Name="AnomaliesGraph"
+                                    Height="200"
+                                    DockPanel.Dock="Bottom"
+                                    Hoverable="False"
+                                    DataTooltip="{x:Null}"
+                                    DisableAnimations="True"
+                                    Series="{Binding Path=AnomalyDetectionGraph}">
+
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis ShowLabels="False">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator IsEnabled="False"></lvc:Separator>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </UserControl>

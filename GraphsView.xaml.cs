@@ -21,6 +21,8 @@ namespace FlightDetector
     /// </summary>
     public partial class GraphsView : UserControl
     {
+        private GraphsViewModel listener;
+
         public GraphsView()
         {
             InitializeComponent();
@@ -29,11 +31,12 @@ namespace FlightDetector
 
         private void ListenToViewModel(object sender, RoutedEventArgs e)
         {
+            listener = (GraphsViewModel) this.DataContext;
             if ((GraphsViewModel)this.DataContext == null)
             {
                 return;
             }
-            ((GraphsViewModel)this.DataContext).PropertyChanged += (o, args) =>
+            listener.PropertyChanged += (o, args) =>
             {
                 if (args.PropertyName == "MostCorrelatedFeature" && string.IsNullOrEmpty(((GraphsViewModel)DataContext).MostCorrelatedFeature))
                 {
@@ -43,7 +46,9 @@ namespace FlightDetector
                 }
                 else
                 {
-                    Trace.WriteLine("Some property changed");
+                    this.MostCorrelatedGraph.Visibility = Visibility.Visible;
+                    this.MostCorrelatedTextBlock.Visibility = Visibility.Visible;
+                    this.NoMostCorrelatedTextBlock.Visibility = Visibility.Hidden;
                 }
             };
         }

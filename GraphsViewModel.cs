@@ -51,13 +51,14 @@ namespace FlightDetector
             {
 
                 this._timeStep = value;
-                Trace.WriteLine("in graph model: " + _timeStep); // todo remove
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
                 this._secondsPassed += (1 / this._timeStepsPerSecond);
                 if (IsSecondPassed(this._secondsPassed))
                 {
                     UpdateLastValues(this.SelectedFeatureChartValues, SelectedFeature);
-                    UpdateLastValues(this.MostCorrelatedChartValues, MostCorrelatedFeature);
+                    if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
+                        UpdateLastValues(this.MostCorrelatedChartValues, MostCorrelatedFeature);
+                    UpdateAnomalyGraph();
                     this._lastTimeStepAdded = this._timeStep;
 
 
@@ -82,21 +83,6 @@ namespace FlightDetector
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public SeriesCollection SelectedFeatureGraph { get; set; }
 
         public ChartValues<double> SelectedFeatureChartValues { get; set; }
@@ -109,36 +95,23 @@ namespace FlightDetector
             set
             {
                 this._mostCorrelatedFeature = value;
-                if (this._mostCorrelatedFeature != null)
+                this.MostCorrelatedChartValues.Clear();
+                this.NormalFeaturesValues.Clear();
+                if (!String.IsNullOrEmpty(this._mostCorrelatedFeature))
                 {
-                    this.MostCorrelatedChartValues.Clear();
                     UpdateLastValues(this.MostCorrelatedChartValues, this._mostCorrelatedFeature);
+                    UpdateAnomalyGraph();
                 }
+                Trace.WriteLine(_mostCorrelatedFeature + "changed");
                 OnPropertyChanged(nameof(MostCorrelatedFeature));
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public SeriesCollection MostCorrelatedGraph { get; set; }
 
         public ChartValues<double> MostCorrelatedChartValues { get; set; }
 
-
-
+        
         public void OnPropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -165,7 +138,10 @@ namespace FlightDetector
             this.SelectedFeature = this.Features != null ? this.Features[0] : "";
 
             UpdateLastValues(this.SelectedFeatureChartValues, this.SelectedFeature);
-            UpdateLastValues(this.MostCorrelatedChartValues, this.SelectedFeature);
+            if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
+            {
+                UpdateLastValues(this.MostCorrelatedChartValues, this.SelectedFeature);
+            }
 
 
 
@@ -188,10 +164,24 @@ namespace FlightDetector
                 }
             };
 
-            // this.NormalFeaturesValues = new ChartValues<ScatterPoint>();
-            // this.AnomalyFeaturesValues = new ChartValues<ScatterPoint>();
-            // this.ThresholdValues = new ChartValues<ScatterPoint>();
-            // this.AnomalyDetectionGraph = BuildDetectionSeriesCollection();
+            this.NormalFeaturesValues = new ChartValues<ScatterPoint>();
+            this.AnomalyFeaturesValues = new ChartValues<ScatterPoint>();
+            this.ThresholdValues = new ChartValues<ScatterPoint>();
+            this.AnomalyDetectionGraph = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Values = this.ThresholdValues
+                },
+                new ScatterSeries
+                {
+                    Values = this.NormalFeaturesValues
+                },
+                new ScatterSeries
+                {
+                    Values = this.AnomalyFeaturesValues
+                }
+            };
         }
 
 
@@ -240,19 +230,41 @@ namespace FlightDetector
             return this._model.GetMostCorrelatedFeature(this._selectedFeature);
         }
 
+
+        private void UpdateAnomalyGraph()
+        {
+            if (!string.IsNullOrEmpty(this.MostCorrelatedFeature))
+            {
+                BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
+                if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression && this.NormalFeaturesValues.Count > 0)
+                {
+                    this.ThresholdValues = BuildLinearRegressionValues();
+                }
+                else if (this.NormalFeaturesValues.Count > 0)// Min Circle
+                {
+                    this.ThresholdValues = BuildMinCircleValues();
+                }
+            }
+        } 
+
+
         private SeriesCollection BuildDetectionSeriesCollection()
         {
             this.ThresholdValues.Clear(); // when building the graph we need to erase what was there before
 
-            BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
-            if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
+            if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
             {
-                this.ThresholdValues = BuildLinearRegressionValues();
+                BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
+                if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
+                {
+                    this.ThresholdValues = BuildLinearRegressionValues();
+                }
+                else // Min Circle
+                {
+                    this.ThresholdValues = BuildMinCircleValues();
+                }
             }
-            else // Min Circle
-            {
-                this.ThresholdValues = BuildMinCircleValues();
-            }
+            
 
             SeriesCollection detectionSeries = new SeriesCollection
             {
@@ -275,6 +287,7 @@ namespace FlightDetector
 
         private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
         {
+            
             List<double> selectedFeatureValues =
                 this._model.GetLastValues(this.TimeStep, this.TimeStepsPerSecond, this.SelectedFeature);
             List<double> mostCorrelatedValues =
@@ -284,21 +297,24 @@ namespace FlightDetector
             anomaly.Clear();
 
             int index = 0;
-            for (int i = this.TimeStep - 30; i < selectedFeatureValues.Count; i++) // todo to constant
+            for (int i = 0; i < selectedFeatureValues.Count; i++) // todo to constant
             {
-                if (IsTimeStepAnomaly(i))
-                {
-                    anomaly.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                }
-                else
-                {
-                    normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                }
+                // if (IsTimeStepAnomaly(i))
+                // {
+                //     anomaly.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                // }
+                // else
+                // {
+                //     normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                // }
+                normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                index++;
             }
         }
 
         private bool IsTimeStepAnomaly(int timeStep)
         {
+            // todo check by feature
             int[] allAnomaliesTimeSteps = this._model.GetAllAnomaliesTimeSteps();
             return Array.Exists(allAnomaliesTimeSteps, anomaly => timeStep == anomaly);
         }

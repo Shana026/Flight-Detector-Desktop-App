@@ -5,15 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightDetector"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="0,-10,0,10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="12*"/>
-            <ColumnDefinition Width="13*"/>
-        </Grid.ColumnDefinitions>
-        <Slider x:Name="RudderSlider" Value="{Binding VM_Rudder}" Background="CadetBlue"  Minimum="-1" Maximum="1" HorizontalAlignment="Left" Height="28" Margin="158,371,0,0" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2"/>
-        <TextBlock FontSize="26" HorizontalAlignment="Left" Margin="282,404,0,4" Text="🢦 Rudder 🢧" TextWrapping="Wrap" Width="152" Grid.ColumnSpan="2"/>
-        <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle}" Background="SkyBlue"  Minimum="0" Maximum="1" HorizontalAlignment="Left" Height="30" Margin="-30,170,0,0" VerticalAlignment="Top" Width="307" RenderTransformOrigin="0.5,0.5">
+             d:DesignHeight="250" d:DesignWidth="300">
+    <Viewbox Height="300" Width="300">
+        <Grid  >
+
+        <Slider x:Name="RudderSlider" Value="{Binding VM_Rudder}" Background="CadetBlue"  Minimum="-1" Maximum="1" HorizontalAlignment="Left" Height="28" Margin="120,421,0,0" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.5,0.5" />
+        <TextBlock FontSize="26" HorizontalAlignment="Left" Margin="245,466,0,15" Text="🢦 Rudder 🢧" TextWrapping="Wrap" Width="152" Grid.ColumnSpan="2" RenderTransformOrigin="0.473,1.219"/>
+        <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle}" Background="SkyBlue"  Minimum="0" Maximum="1" HorizontalAlignment="Left" Height="30" Margin="-60,210,0,0" VerticalAlignment="Top" Width="307" RenderTransformOrigin="0.5,0.5" ValueChanged="ThrottleSlider_ValueChanged">
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -23,7 +21,7 @@
                 </TransformGroup>
             </Slider.RenderTransform>
         </Slider>
-        <TextBlock FontSize="26" HorizontalAlignment="Left" Height="37" Margin="-53,134,0,0" Text="🢦 Throttle 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="167" RenderTransformOrigin="1.183,0.58">
+        <TextBlock FontSize="26" HorizontalAlignment="Left" Height="37" Margin="-80,160,0,0" Text="🢦 Throttle 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="167" RenderTransformOrigin="1.183,0.58">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -33,7 +31,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Canvas  x:Name="Base" Margin="175,26,285,84" Width="340" Height="340" Grid.ColumnSpan="2">
+        <Canvas  x:Name="Base" Margin="135,64,80,106" Width="340" Height="340">
             <Ellipse Height="319" Width="320" Canvas.Left="9" Canvas.Top="11">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -85,18 +83,18 @@
                 </Ellipse>
             </Canvas>
         </Canvas>
-        <TextBlock Text="🢦 Elevator 🢧" FontSize="26" HorizontalAlignment="Left" Height="58" Margin="76,170,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="174" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+        <TextBlock Text="🢦 Elevator 🢧" FontSize="26" HorizontalAlignment="Left" Height="58" Margin="415,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Center" Width="234" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
+                    <SkewTransform AngleX="0.168"/>
                     <RotateTransform Angle="89.638"/>
-                    <TranslateTransform/>
+                    <TranslateTransform X="0.001" Y="0.085"/>
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        
-        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="27" Margin="282,10,0,0" Text="🢦 Aileron 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="236" FontSize="26"/>
-
+        <local:LastValuesGraphView HorizontalAlignment="Left" Margin="345,196,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Height="41" Margin="245,10,0,0" Text="🢦 Aileron 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="236" FontSize="26"/>
     </Grid>
+        </Viewbox>
 </UserControl>
