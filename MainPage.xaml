@@ -49,8 +49,8 @@
                           HorizontalAlignment="Right"
                           DataContext="{Binding Path=GraphsViewModel}"></local:GraphsView>
 
-        <local:FooterView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"  Margin="0, 10,0,0"
-                          VerticalAlignment="Bottom"
+        <local:FooterView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="6"  Margin="0, 10,0,0"
+                          VerticalAlignment="Bottom" 
                           DataContext="{Binding Path=FooterViewModel}"></local:FooterView>
     </Grid>
 </Page>

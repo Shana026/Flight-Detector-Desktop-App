@@ -16,10 +16,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <ComboBox Margin="10" 
                   Grid.Row="0" Grid.ColumnSpan="2" 
                   ItemsSource="{Binding Features}" 
                   SelectedItem="{Binding SelectedFeature}"></ComboBox>
+
         <TextBlock Grid.Row="1" Grid.Column="0"  
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center">
@@ -28,7 +30,7 @@
                 <Run Text="{Binding Path=SelectedFeature}"></Run>
             </TextBlock.Inlines>
         </TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock x:Name="MostCorrelatedTextBlock" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Loaded="ListenToViewModel">
             <TextBlock.Inlines>
                 <Run FontWeight="Bold" Text="Most Correlated: "></Run>
                 <Run Text="{Binding Path=MostCorrelatedFeature}"></Run>
@@ -55,6 +57,12 @@
                 </lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
+
+        <TextBlock x:Name="NoMostCorrelatedTextBlock"
+                   Grid.Row="2" Grid.Column="1"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Visibility="Hidden"
+                   Text="There is no feature that is correlated enough to this feature"></TextBlock>
 
         <lvc:CartesianChart x:Name="MostCorrelatedGraph" 
                             Height="200" 

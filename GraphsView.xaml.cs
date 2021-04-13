@@ -25,5 +25,23 @@ namespace FlightDetector
         {
             InitializeComponent();
         }
+
+
+        private void ListenToViewModel(object sender, RoutedEventArgs e)
+        {
+            ((GraphsViewModel)this.DataContext).PropertyChanged += (o, args) =>
+            {
+                if (args.PropertyName == "MostCorrelatedFeature" && string.IsNullOrEmpty(((GraphsViewModel) DataContext).MostCorrelatedFeature))
+                {
+                    this.MostCorrelatedGraph.Visibility = Visibility.Hidden;
+                    this.MostCorrelatedTextBlock.Visibility = Visibility.Hidden;
+                    this.NoMostCorrelatedTextBlock.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Trace.WriteLine("Some property changed");
+                }
+            };
+        }
     }
 }
