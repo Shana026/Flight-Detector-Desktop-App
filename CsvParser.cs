@@ -28,5 +28,10 @@ namespace FlightDetector
             }
             return data;
         }
+
+        public void CreateFile(string path, string[] data)
+        {
+            File.WriteAllLines(path, data);
+        }
     }
 }

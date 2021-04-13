@@ -25,17 +25,17 @@ namespace FlightDetector
     {
         private bool isCsvValid = true;
 
-        public MainPage(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType)
+        public MainPage(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType) // todo remove dll?
         {
             InitializeComponent();
             try
             {
-                MainViewModel mainViewModel = new MainViewModel(validFlightPath);
+                MainViewModel mainViewModel = new MainViewModel(validFlightPath, flightToDetectPath, detectorType);
                 DataContext = mainViewModel;
             }
             catch (FormatException e)
             {
-                MessageBox.Show("CSV file is not in the right format. Please choose again");
+                MessageBox.Show("CSV file is not in the right format. Please choose again", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 // ReturnToHomePage();
                 isCsvValid = false;
             }

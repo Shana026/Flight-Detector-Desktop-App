@@ -39,13 +39,17 @@ namespace FlightDetector
             this._data = csvParser.DataToDictionary(lines);
         }
 
-        public FlightData(CsvParser csvParser, string flightToInspectPath, AnomalyDetector detector, string[] features)
+        public FlightData(CsvParser csvParser, string validFlightPath, string flightToInspectPath, AnomalyDetector detector, string[] features)
         {
             this.Features = features;
             string[] lines = csvParser.GetCsvLines(flightToInspectPath);
             this.Size = lines.Length;
             this._data = csvParser.DataToDictionary(lines);
-            BuildCorrelationData(detector);
+            string validFlightNewPath = "files/train_flight.csv";
+            string flightToInspectNewPath = "files/test_flight.csv";
+            CreateCsvWithTitles(validFlightPath, validFlightNewPath, features, csvParser);
+            CreateCsvWithTitles(flightToInspectPath, flightToInspectNewPath, features, csvParser);
+            BuildCorrelationData(detector, validFlightNewPath, flightToInspectNewPath);
             this._detectorType = detector.DetectorType;
             this.AllAnomaliesTimeSteps = detector.GetAllAnomaliesTimesSteps();
         }
@@ -104,8 +108,10 @@ namespace FlightDetector
             throw new Exception("Feature does not exist");
         }
 
-        private void BuildCorrelationData(AnomalyDetector detector)
+        private void BuildCorrelationData(AnomalyDetector detector, string validFlightPath, string flightToDetectPath)
         {
+            detector.learnNormalFromCSV(new StringBuilder(validFlightPath));
+            detector.detectFromCSV(new StringBuilder(flightToDetectPath));
             this.CorrelationData = new Dictionary<string, KeyValuePair<string, float[]>>();
             foreach (var feature in this.Features)
             {
@@ -124,6 +130,19 @@ namespace FlightDetector
                     new KeyValuePair<string, float[]>(correlatedFeature, threshold);
                 this.CorrelationData.Add(feature, correlationData);
             }
+        }
+
+        private void CreateCsvWithTitles(string originalFilePath, string newFilePath, string[] features, CsvParser csvParser)
+        {
+            string featuresLine = string.Join("", features);
+            string[] dataLines = csvParser.GetCsvLines(originalFilePath);
+            string[] allLines = new string[dataLines.Length + 1];
+            allLines[0] = featuresLine;
+            for (int i = 1; i < allLines.Length; i++)
+            {
+                allLines[i] = dataLines[i];
+            }
+            csvParser.CreateFile(newFilePath, allLines);
         }
     }
 }

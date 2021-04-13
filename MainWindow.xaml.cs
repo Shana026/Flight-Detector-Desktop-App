@@ -26,8 +26,8 @@ namespace FlightDetector
         public MainWindow()
         {
             InitializeComponent();
-            MainViewModel mainViewModel = new MainViewModel("reg_flight.csv");
-            DataContext = mainViewModel;
+            // MainViewModel mainViewModel = new MainViewModel("reg_flight.csv");
+            // DataContext = mainViewModel;
         }
     }
 }

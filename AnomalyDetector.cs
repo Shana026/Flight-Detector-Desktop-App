@@ -15,8 +15,9 @@ namespace FlightDetector
 
     class AnomalyDetector
     {
-        private string _dllPath;
-        public string CsvPath { get; private set; }
+        // public string CsvPath { get; private set; }
+
+        // private string _dllPath;
         private AnomalyDetectorType _detectorType;
         IntPtr anomalyDetector;
 
@@ -65,10 +66,9 @@ namespace FlightDetector
         [DllImport("SimpleAnomalyDetector.dll")]
         public static extern int getAnomalyByIndex(IntPtr a, int index);
 
-        public AnomalyDetector(string dllPath, string csvPath, AnomalyDetectorType detectorType)
+        public AnomalyDetector(AnomalyDetectorType detectorType)
         {
-            this._dllPath = dllPath;
-            this.CsvPath = csvPath;
+            // this.CsvPath = csvPath;
             this.DetectorType = detectorType;
             this.anomalyDetector = create();
         }
