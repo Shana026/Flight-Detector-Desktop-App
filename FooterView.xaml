@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
-            <Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="2174" x:Name="slider" Value ="{Binding VM_NextLine}"  IsSnapToTickEnabled="true" HorizontalAlignment="Left" VerticalAlignment="Top" Width="642" ValueChanged="slider_ValueChanged" />
+            <Slider Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="{Binding VM_MaxValueSlider}" x:Name="slider" Value ="{Binding VM_NextLine}"  IsSnapToTickEnabled="true" HorizontalAlignment="Left" VerticalAlignment="Top" Width="642" ValueChanged="slider_ValueChanged" />
             <DockPanel Grid.Row="2" Grid.Column="1">
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -37,20 +37,20 @@
                             Height="25" Width="40" FontSize="14" RenderTransformOrigin="0.518,0.275"/>
                     <Button x:Name="skipToTheStartButton" FontWeight="Bold" Content="skip to the start" 
                             HorizontalAlignment="Left" 
-                            VerticalAlignment="Top" Height="25" Width="110" FontSize="14"/>
+                            VerticalAlignment="Top" Height="25" Width="110" FontSize="14" Click="skipToTheStartButton_Click"/>
                     <Button x:Name="backButton" Content="back" FontWeight="Bold" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" Height="25" Width="40" FontSize="14" 
-                            RenderTransformOrigin="0.915,0.476"/>
+                            RenderTransformOrigin="0.915,0.476" Click="backButton_Click"/>
                     <Button x:Name="fastForwardButton" Content="fast forward" FontWeight="Bold" 
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
-                            Height="25" Width="94" FontSize="14"/>
+                            Height="25" Width="94" FontSize="14" Click="fastForwardButton_Click"/>
                     <Button x:Name="skipToTheEndButton" Content="skip to the end" FontWeight="Bold" 
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
-                            RenderTransformOrigin="1.194,0.967" Height="25" Width="109" FontSize="14"/>
+                            RenderTransformOrigin="1.194,0.967" Height="25" Width="109" FontSize="14" Click="skipToTheEndButton_Click"/>
                     <Button x:Name="stopButton" Content="stop" FontWeight="Bold" 
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
-                            RenderTransformOrigin="0.06,0.579" Height="25" Width="40" FontSize="14"/>
+                            RenderTransformOrigin="0.06,0.579" Height="25" Width="40" FontSize="14" Click="stopButton_Click_1"/>
                 </StackPanel>
 
 
