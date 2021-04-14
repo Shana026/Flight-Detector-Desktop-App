@@ -249,6 +249,7 @@ namespace FlightDetector
             }
         }
 
+
         private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
         {
             
@@ -338,7 +339,6 @@ namespace FlightDetector
             double centerX = circleCenterAndRadius[0];
             double radius = circleCenterAndRadius[2];
 
-
             double skip = (2 * radius) / 1000;
 
             if (skip == 0)
@@ -348,6 +348,7 @@ namespace FlightDetector
 
             double i = centerX - radius;
 
+
             while (i < centerX + radius)
             {
                 double[] res = GetCircleY(circleCenterAndRadius, i);
@@ -355,19 +356,9 @@ namespace FlightDetector
                 ScatterPoint p2 = new ScatterPoint(i, res[1], 1);
                 minCircle.Add(p1);
                 minCircle.Add(p2);
-
                 i += skip;
 
-                // if (i - centerX + radius < 0.1 || centerX + radius - i < 0.1)
-                // {
-                //     i += 0.05;
-                //     // i += skip;
-                // }
-                // else
-                // {
-                //     i += 0.1;
-                //     // i += skip;
-                // }
+
             }
         }
 

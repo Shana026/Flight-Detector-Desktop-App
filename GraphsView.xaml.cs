@@ -39,6 +39,7 @@ namespace FlightDetector
             listener.PropertyChanged += (o, args) =>
             {
                 if (args.PropertyName == "MostCorrelatedFeature" && string.IsNullOrEmpty(((GraphsViewModel)DataContext).MostCorrelatedFeature))
+
                 {
                     this.MostCorrelatedGraph.Visibility = Visibility.Hidden;
                     this.MostCorrelatedTextBlock.Visibility = Visibility.Hidden;
@@ -49,6 +50,7 @@ namespace FlightDetector
                     this.MostCorrelatedGraph.Visibility = Visibility.Visible;
                     this.MostCorrelatedTextBlock.Visibility = Visibility.Visible;
                     this.NoMostCorrelatedTextBlock.Visibility = Visibility.Hidden;
+
                 }
             };
         }

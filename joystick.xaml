@@ -12,6 +12,7 @@
         <Slider x:Name="RudderSlider" Value="{Binding VM_Rudder}" Background="CadetBlue"  Minimum="-1" Maximum="1" HorizontalAlignment="Left" Height="28" Margin="120,421,0,0" VerticalAlignment="Top" Width="400" RenderTransformOrigin="0.5,0.5" />
         <TextBlock FontSize="26" HorizontalAlignment="Left" Margin="245,466,0,15" Text="🢦 Rudder 🢧" TextWrapping="Wrap" Width="152" Grid.ColumnSpan="2" RenderTransformOrigin="0.473,1.219"/>
         <Slider x:Name="ThrottleSlider" Value="{Binding VM_Throttle}" Background="SkyBlue"  Minimum="0" Maximum="1" HorizontalAlignment="Left" Height="30" Margin="-60,210,0,0" VerticalAlignment="Top" Width="307" RenderTransformOrigin="0.5,0.5" >
+
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -22,6 +23,7 @@
             </Slider.RenderTransform>
         </Slider>
         <TextBlock FontSize="26" HorizontalAlignment="Left" Height="37" Margin="-80,160,0,0" Text="🢦 Throttle 🢧" TextWrapping="Wrap" VerticalAlignment="Top" Width="167" RenderTransformOrigin="1.183,0.58">
+
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -32,6 +34,7 @@
             </TextBlock.RenderTransform>
         </TextBlock>
         <Canvas  x:Name="Base" Margin="135,64,80,106" Width="340" Height="340">
+
             <Ellipse Height="319" Width="320" Canvas.Left="9" Canvas.Top="11">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -98,3 +101,4 @@
     </Grid>
         </Viewbox>
 </UserControl>
+
