@@ -26,78 +26,78 @@ namespace FlightDetector
             set => this._detectorType = value;
         }
         //function from the DLL
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern IntPtr create();
 
         //learn normal
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getMostCorrelativeFeature(IntPtr a, StringBuilder feature);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfStringWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern char getCharByIndexStringWrapper(IntPtr a, int x);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int learnNormalFromCSV(IntPtr a, StringBuilder CSVfileName);
 
         //get Linear  Regression 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern void getLinearRegression(IntPtr a, StringBuilder feature);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfFloatArrayWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern float getFloatArrayByIndex(IntPtr a, int index);
 
         //detect
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int detectFromCSV(IntPtr a, StringBuilder CSVfileName);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getAllAnomalyTimestamp(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfArrayWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("files\\SimpleAnomalyDetector.dll")]
         public static extern int getAnomalyByIndex(IntPtr a, int index);
 
         //CircleDetector
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern IntPtr createCircleDetector();
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int learnNormalFromCSVCircle(IntPtr a, StringBuilder CSVfileName);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getMostCorrelativeFeatureCircle(IntPtr a, StringBuilder feature);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getLenOfStringWrapperCircle(IntPtr a);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern char getCharByIndexStringWrapperCircle(IntPtr a, int x);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern void getRegressionCircle(IntPtr a, StringBuilder feature);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getLenOfFloatArrayWrapperCircle(IntPtr a);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern float getFloatArrayByIndexCircle(IntPtr a, int index);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int detectFromCSVCircle(IntPtr a, StringBuilder CSVfileName);
 
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getAllAnomalyTimestampCircle(IntPtr a);
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getLenOfArrayWrapperCircle(IntPtr a);
-        [DllImport("MinCircleDll.dll")]
+        [DllImport("files\\MinCircleDll.dll")]
         public static extern int getAnomalyByIndexCircle(IntPtr a, int index);
 
         public AnomalyDetector(string dllPath, string csvPath, AnomalyDetectorType detectorType)
