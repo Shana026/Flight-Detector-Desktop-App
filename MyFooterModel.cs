@@ -26,12 +26,6 @@ namespace FlightDetector
             set {}
         }
 
-        private FlightData flightData; ///added
-        public FlightData FlightData
-        {
-            get { return flightData; }
-            set { }
-        }
 
         public int nextLine;
         public int NextLine
@@ -54,10 +48,9 @@ namespace FlightDetector
             }
         }
 
-        public MyFooterModel(IClient Client, FlightData data, AnomalyDetector ad) ////added
+        public MyFooterModel(IClient Client, AnomalyDetector ad) ////added
         {
             this.anomalyDetector = ad; //added
-            this.flightData = data; /////added
             this.client = Client;
             this.playbackSpeed = 100;
             stop = false;

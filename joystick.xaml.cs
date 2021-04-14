@@ -38,9 +38,6 @@ namespace FlightDetector
 
         }
 
-        private void ThrottleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
+        
     }
 }

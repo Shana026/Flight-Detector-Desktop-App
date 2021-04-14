@@ -20,7 +20,6 @@ namespace FlightDetector
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
-            //anomaliesList = model.FlightData.anomaliesList;  //added
             anomaliesList = model.AnomalyDetector.GetAllAnomaliesTimesSteps();  //added
         }
         private int playbackSpeed;

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="FlightDetector.dataDisplayViewModel" Collapsed="true">
+    <Position X="1" Y="3.25" Width="1.5" />
+    <AssociationLine Name="model" Type="FlightDetector.dataDisplayModel" ManuallyRouted="true">
+      <Path>
+        <Point X="2.5" Y="3.531" />
+        <Point X="3.044" Y="3.531" />
+        <Point X="3.044" Y="5.781" />
+        <Point X="2.5" Y="5.781" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAIIAAACAAAAAAkQAAAAAAACAAEAAsMRA=</HashCode>
+      <FileName>dataDisplayViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.MainViewModel" Collapsed="true">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <AssociationLine Name="DataDisplayViewModel" Type="FlightDetector.dataDisplayViewModel">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.121" Y="0.665" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="FooterViewModel" Type="FlightDetector.FooterViewModel">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.131" Y="0.676" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="JoystickViewModel" Type="FlightDetector.joystickViewModel" ManuallyRouted="true">
+      <Path>
+        <Point X="5.5" Y="1.953" />
+        <Point X="4.5" Y="1.953" />
+        <Point X="4.5" Y="3.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.251" Y="0.715" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="GraphsViewModel" Type="FlightDetector.GraphsViewModel">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.184" Y="0.739" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAEAAQAhAAAEAAAAIAAAICABAAAAAAAABAAAgAQICBQ=</HashCode>
+      <FileName>MainViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataDisplayViewModel" />
+      <Property Name="FooterViewModel" />
+      <Property Name="JoystickViewModel" />
+      <Property Name="GraphsViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FlightDetector.joystickViewModel" Collapsed="true">
+    <Position X="3.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIABgAAAAgAAgAAEAAABBAAAEAgIEDA=</HashCode>
+      <FileName>joystickViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.GraphsViewModel" Collapsed="true">
+    <Position X="9.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAFgAAAAIAwMgEBgACggAAAIEBBAAACIAAAABA=</HashCode>
+      <FileName>GraphsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_model" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.FooterViewModel" Collapsed="true">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEBACAAIAAAAAJCAAAAAACAAgACAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>FooterViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.dataDisplayView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>dataDisplayView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlightDetector.dataDisplayModel" Collapsed="true">
+    <Position X="1" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAICAAAAAAAAAgAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>dataDisplayModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FlightData" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.joystick" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>joystick.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="vm" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FlightDetector.joystickModel" Collapsed="true">
+    <Position X="3.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAICAAAAAAAAAgAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>joystickModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FlightData" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.FlightData" Collapsed="true">
+    <Position X="2" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAABAABoQAgAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FlightData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FlightDetector.GraphsModel" Collapsed="true">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAEAAAiAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphsModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FlightDetector.LastValuesGraphView" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphsView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.FooterView" Collapsed="true">
+    <Position X="6.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAkAAAAAAABSAAAAAAAAAIAAAAAAAABAAA=</HashCode>
+      <FileName>FooterView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FlightDetector.MyFooterModel" Collapsed="true">
+    <Position X="6.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAwAAAAEAJCggAAQCAAAggKgAAAAAAAABAAEABA=</HashCode>
+      <FileName>MyFooterModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="System.ComponentModel.INotifyPropertyChanged" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FlightDetector.IFooterModel" Collapsed="true">
+    <Position X="12" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACggAAAAAAAAgCAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>IFooterModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -94,15 +94,13 @@ namespace FlightDetector
             AnomalyDetector anomalyDetector = new AnomalyDetector("", "",0); //added
             anomalyDetector.learnNormalFromCSV(new StringBuilder("train.csv")); //added
             anomalyDetector.detectFromCSV(new StringBuilder("test.csv")); //added
-            //anomalyDetector.learnNormalFromCSV(new StringBuilder("C:\\Users\\Shana\\source\\repos\\FlightDetector\\reg_flight.csv"));
-            //anomalyDetector.detectFromCSV(new StringBuilder("C:\\Users\\Shana\\source\\repos\\FlightDetector\\anomaly_flight.csv"));
-
+        
             XmlParser xmlParser = new XmlParser();
             string xmlPath = XML_PATH;
             CsvParser csvParser = new CsvParser();
             FlightData data = new FlightData(xmlParser, xmlPath, csvParser, csvPath);
 
-            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client(),data,anomalyDetector));  //changed
+            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client(),anomalyDetector));  //added anomalyDetector
             this.FooterViewModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs args)
             {
                 OnFooterPropertyChange(args);
