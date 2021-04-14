@@ -82,9 +82,13 @@ namespace FlightDetector
 
             Nullable<bool> chosenFile = dialog.ShowDialog();
 
-            if (chosenFile == true)
+            if (chosenFile == true && IsDllFileNameValid(dialog.FileName))
             {
                 dllPath = dialog.FileName;
+            }
+            else
+            {
+                MessageBox.Show("Please upload DLL according to instructions!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -117,6 +121,12 @@ namespace FlightDetector
                 MessageBox.Show("Please open FlightGear and make sure the settings match the instructions", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+            if (!IsDllMatchesType())
+            {
+                MessageBox.Show("DLL do not matches the chosen type!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             this.NavigationService.Navigate(new MainPage(validFlightPath, flightToDetectPath, dllPath, detectorType));
         }
 
@@ -131,6 +141,23 @@ namespace FlightDetector
             {
                 return false;
             }
+        }
+
+
+        private bool IsDllFileNameValid(string fullPath)
+        {
+            string[] dividedPath = fullPath.Split('\\');
+            string fileName = dividedPath[^1];
+            return fileName == "SimpleAnomalyDetector.dll" || fileName == "MinCircleDll.dll";
+        }
+
+        private bool IsDllMatchesType()
+        {
+            string[] dividedPath = this.dllPath.Split('\\');
+            string fileName = dividedPath[^1];
+            return (fileName == "SimpleAnomalyDetector.dll" &&
+                    this.detectorType == AnomalyDetectorType.LinearRegression) ||
+                   (fileName == "MinCircleDll.dll" && this.detectorType == AnomalyDetectorType.MinCircle);
         }
     }
 }

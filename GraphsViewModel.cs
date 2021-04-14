@@ -29,7 +29,11 @@ namespace FlightDetector
         public double TimeStepsPerSecond
         {
             get => this._timeStepsPerSecond;
-            set => this._timeStepsPerSecond = value;
+            set
+            {
+                this._timeStepsPerSecond = value;
+                this._secondsPassed = 0;
+            } 
         }
 
         private string[] _features;

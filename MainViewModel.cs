@@ -78,7 +78,7 @@ namespace FlightDetector
 
         // Constructor
 
-        public MainViewModel(string validFlightPath, string flightToDetectPath, AnomalyDetectorType detectorType) // todo how to get path?
+        public MainViewModel(string validFlightPath, string flightToDetectPath, AnomalyDetectorType detectorType)
         {
             var features = GetFeatures(out var xmlParser, out var xmlPath);
             CsvParser csvParser = new CsvParser();
@@ -123,7 +123,6 @@ namespace FlightDetector
             this.GraphsViewModel.TimeStep = this.TimeStep;
             this.DataDisplayViewModel.TimeStep = this.TimeStep;
             this.JoystickViewModel.TimeStep = this.TimeStep;
-            // todo add other viewModels here
         }
 
         private void UpdateViewModlesSpeedChanged()

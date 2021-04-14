@@ -24,7 +24,6 @@ namespace FlightDetector
             get { return nextLine; }
             set { 
                 nextLine = value;
-                Trace.WriteLine("in model" + nextLine);
                 NotifyPropertyChanged("NextLine");
             }
         }
