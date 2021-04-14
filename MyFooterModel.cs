@@ -15,16 +15,17 @@ namespace FlightDetector
         IClient client;
         string[] lines;
         volatile Boolean stop;
-        double csvNumOfLine;
+        //public int csvNumOfLine;
         Boolean hasDone = false;
         public event PropertyChangedEventHandler PropertyChanged;
+
+
         public int nextLine;
         public int NextLine
         {
             get { return nextLine; }
             set { 
                 nextLine = value;
-                Trace.WriteLine("in model" + nextLine);
                 NotifyPropertyChanged("NextLine");
             }
         }
@@ -40,15 +41,25 @@ namespace FlightDetector
             }
         }
 
+        private int csvNumOfLine;
+        public int CSVNumOfLine
+        {
+            get { return csvNumOfLine; }
+            set
+            {
+                csvNumOfLine = value;
+                NotifyPropertyChanged("CSVNumOfLine");
+            }
+        }
         public MyFooterModel(IClient Client)
         {
             this.client = Client;
             this.playbackSpeed = 100;
             stop = false;
             CsvParser csvParser = new CsvParser();
-            lines = csvParser.GetCsvLines("reg_flight.csv");
-            csvNumOfLine = lines.Length;
-            nextLine = 0;
+            lines = csvParser.GetCsvLines("files\\test_flight.csv");
+            CSVNumOfLine = lines.Length;
+            nextLine = 1;
         }
 
 
@@ -58,10 +69,10 @@ namespace FlightDetector
                 // Read the file and display it line by line.  
                 while ((nextLine < csvNumOfLine) && !stop)
                    {
-                    if (nextLine < 2174) {
+                    if (nextLine < csvNumOfLine-1) 
+                    {
                         client.write(lines[nextLine]);
                     }
-
                         Thread.Sleep(playbackSpeed);
                         NextLine++;
                 }

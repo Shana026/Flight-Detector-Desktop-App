@@ -20,6 +20,27 @@ namespace FlightDetector
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
+            this.VM_MaxValueSlider = 0;
+        }
+        private int maxValueSlider;
+        public int VM_MaxValueSlider
+        {
+            get { return maxValueSlider; }
+            set
+            {
+                maxValueSlider = value;
+                NotifyPropertyChanged("VM_MaxValueSlider");
+            }
+        }
+
+        private int CSVNumOfLine;
+        public int VM_CSVNumOfLine
+        {
+            get { return CSVNumOfLine; }
+            set
+            {
+                this.CSVNumOfLine = model.CSVNumOfLine;
+            }
         }
         private int playbackSpeed;
         public int VM_PlaybackSpeed

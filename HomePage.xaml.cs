@@ -124,7 +124,8 @@ namespace FlightDetector
         {
             try
             {
-                TcpClient client = new TcpClient("127.0.0.1", 5400);
+               //TcpClient client = new TcpClient("127.0.0.1", 5400);
+                //client.Close();
                 return true;
             }
             catch (Exception e)

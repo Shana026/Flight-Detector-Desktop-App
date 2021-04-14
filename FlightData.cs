@@ -12,6 +12,8 @@ namespace FlightDetector
     {
         private readonly Dictionary<int, double[]> _data;
 
+        public string[] lines;
+
         private AnomalyDetectorType _detectorType;
 
         public Dictionary<string, KeyValuePair<string, float[]>> CorrelationData
@@ -36,7 +38,7 @@ namespace FlightDetector
         {
             xmlParser.UploadXml(xmlPath);
             this.Features = xmlParser.GetFeatures();
-            string[] lines = csvParser.GetCsvLines(csvPath);
+            this.lines = csvParser.GetCsvLines(csvPath);
             this.Size = lines.Length;
             this._data = csvParser.DataToDictionary(lines);
         }
@@ -44,7 +46,7 @@ namespace FlightDetector
         public FlightData(CsvParser csvParser, string validFlightPath, string flightToInspectPath, AnomalyDetector detector, string[] features)
         {
             this.Features = features;
-            string[] lines = csvParser.GetCsvLines(flightToInspectPath);
+            this.lines = csvParser.GetCsvLines(flightToInspectPath);
             this.Size = lines.Length;
             this._data = csvParser.DataToDictionary(lines);
             string validFlightNewPath = "files/train_flight.csv";

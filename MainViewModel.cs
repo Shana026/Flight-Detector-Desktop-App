@@ -74,19 +74,18 @@ namespace FlightDetector
             set { _dataDisplayViewModel = value; }
         }
 
-
-
         // Constructor
-
         public MainViewModel(string validFlightPath, string flightToDetectPath, AnomalyDetectorType detectorType) // todo how to get path?
         {
             var features = GetFeatures(out var xmlParser, out var xmlPath);
             CsvParser csvParser = new CsvParser();
             // FlightData data = new FlightData(xmlParser, xmlPath, csvParser, validFlightPath);
-            AnomalyDetector detector = new AnomalyDetector("", "", detectorType);
+            AnomalyDetector detector = new AnomalyDetector(validFlightPath, flightToDetectPath, detectorType);
+
             FlightData data = new FlightData(csvParser, validFlightPath, flightToDetectPath, detector, features);
 
             this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()));
+            this.FooterViewModel.VM_MaxValueSlider = csvParser.GetCsvLines("files\\test_flight.csv").Length -2;
             this.FooterViewModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs args)
             {
                 OnFooterPropertyChange(args);

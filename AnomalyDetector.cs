@@ -26,44 +26,79 @@ namespace FlightDetector
             set => this._detectorType = value;
         }
         //function from the DLL
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern IntPtr create();
 
         //learn normal
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getMostCorrelativeFeature(IntPtr a, StringBuilder feature);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfStringWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern char getCharByIndexStringWrapper(IntPtr a, int x);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int learnNormalFromCSV(IntPtr a, StringBuilder CSVfileName);
 
         //get Linear  Regression 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern void getLinearRegression(IntPtr a, StringBuilder feature);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfFloatArrayWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern float getFloatArrayByIndex(IntPtr a, int index);
 
         //detect
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int detectFromCSV(IntPtr a, StringBuilder CSVfileName);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getAllAnomalyTimestamp(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getLenOfArrayWrapper(IntPtr a);
 
-        [DllImport("SimpleAnomalyDetector.dll")]
+        [DllImport("DllFile\\SimpleAnomalyDetector.dll")]
         public static extern int getAnomalyByIndex(IntPtr a, int index);
+
+        //CircleDetector
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern IntPtr createCircleDetector();
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int learnNormalFromCSVCircle(IntPtr a, StringBuilder CSVfileName);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getMostCorrelativeFeatureCircle(IntPtr a, StringBuilder feature);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getLenOfStringWrapperCircle(IntPtr a);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern char getCharByIndexStringWrapperCircle(IntPtr a, int x);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern void getRegressionCircle(IntPtr a, StringBuilder feature);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getLenOfFloatArrayWrapperCircle(IntPtr a);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern float getFloatArrayByIndexCircle(IntPtr a, int index);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int detectFromCSVCircle(IntPtr a, StringBuilder CSVfileName);
+
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getAllAnomalyTimestampCircle(IntPtr a);
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getLenOfArrayWrapperCircle(IntPtr a);
+        [DllImport("DllFile\\MinCircleDll.dll")]
+        public static extern int getAnomalyByIndexCircle(IntPtr a, int index);
 
         public AnomalyDetector(string dllPath, string csvPath, AnomalyDetectorType detectorType)
         {
@@ -76,10 +111,10 @@ namespace FlightDetector
             }
             else
             {
-                //this.anomalyDetector = null;  //todo
+                this.anomalyDetector = createCircleDetector();
             }
         }
-         public int learnNormalFromCSV(StringBuilder CSVfileName)
+        public int learnNormalFromCSV(StringBuilder CSVfileName)
         {
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
@@ -87,7 +122,7 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return learnNormalFromCSVCircle(anomalyDetector, CSVfileName);
             }
         }
         public int getLenOfStringBuilder()
@@ -98,11 +133,11 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return getLenOfStringWrapperCircle(anomalyDetector);
             }
         }
 
-        public char getChatByIndex(int index)
+        public char getCharByIndex(int index)
         {
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
@@ -110,14 +145,14 @@ namespace FlightDetector
             }
             else
             {
-                return 'a';
+                return getCharByIndexStringWrapperCircle(anomalyDetector, index);
             }
         }
         public string GetMostCorrelativeFeature(string feature)
         {
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
-                Trace.WriteLine("anomaly file" + getMostCorrelativeFeature(anomalyDetector, new StringBuilder(feature)));
+                getMostCorrelativeFeature(anomalyDetector, new StringBuilder(feature));
                 int strLen = getLenOfStringWrapper(anomalyDetector);
                 string s = "";
                 for (int i = 0; i < strLen; i++)
@@ -129,7 +164,15 @@ namespace FlightDetector
             }
             else
             {
-                return "hello";
+                getMostCorrelativeFeatureCircle(anomalyDetector, new StringBuilder(feature));
+                int strLen = getLenOfStringWrapperCircle(anomalyDetector);
+                string s = "";
+                for (int i = 0; i < strLen; i++)
+                {
+                    char c = getCharByIndexStringWrapperCircle(anomalyDetector, i);
+                    s += c.ToString();
+                }
+                return s;
             }
         }
         //helper function for GetLinearRegression
@@ -142,7 +185,7 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return getLenOfFloatArrayWrapperCircle(anomalyDetector);
             }
         }
 
@@ -154,7 +197,7 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return getFloatArrayByIndexCircle(anomalyDetector, index);
             }
         }
 
@@ -164,25 +207,33 @@ namespace FlightDetector
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
                 getLinearRegression(anomalyDetector, new StringBuilder(feature));
-                int length = getLenOfFloatArrayWrapper();
-                float[] line = new float[2];
-                for (int i = 0; i < length; i++)
-                {
-                    line[i] = getFloatArrayByIndex(i);
-                }
-                return line;
             }
             else
             {
-                return null;
+
+                getRegressionCircle(anomalyDetector, new StringBuilder(feature));
             }
+            int length = getLenOfFloatArrayWrapper();
+            float[] line = new float[length];
+            for (int i = 0; i < length; i++)
+            {
+                line[i] = getFloatArrayByIndex(i);
+            }
+            return line;
         }
 
         public float[] GetMinCircle(string feature)
         {
-            return new float[3]; // todo implement
+            getRegressionCircle(anomalyDetector, new StringBuilder(feature));
+            int length = getLenOfFloatArrayWrapper();
+            float[] line = new float[length];
+            for (int i = 0; i < length; i++)
+            {
+                line[i] = getFloatArrayByIndex(i);
+            }
+            return line;
         }
-        
+
         public int detectFromCSV(StringBuilder CSVfileName)
         {
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
@@ -191,7 +242,7 @@ namespace FlightDetector
             }
             else
             {
-                return 0;
+                return detectFromCSVCircle(anomalyDetector, CSVfileName);
             }
         }
 
@@ -203,7 +254,7 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return getLenOfArrayWrapperCircle(anomalyDetector);
             }
         }
         public int getAnomalyByIndex(int index)
@@ -214,7 +265,7 @@ namespace FlightDetector
             }
             else
             {
-                return 1;
+                return getAnomalyByIndexCircle(anomalyDetector, index);
             }
         }
 
@@ -223,18 +274,19 @@ namespace FlightDetector
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
                 getAllAnomalyTimestamp(anomalyDetector);
-                int length = getLenOfArrayWrapper();
-                int[] anomalies = new int[length];
-                for (int i = 0; i < length; i++)
-                {
-                    anomalies[i] = getAnomalyByIndex(i);
-                }
-                return anomalies;
             }
             else
             {
-                return null;
+                getAllAnomalyTimestampCircle(anomalyDetector);
             }
+            int length = getLenOfArrayWrapper();
+            int[] anomalies = new int[length];
+            for (int i = 0; i < length; i++)
+            {
+                anomalies[i] = getAnomalyByIndex(i);
+            }
+            return anomalies;
+
         }
     }
 }

@@ -23,7 +23,6 @@ namespace FlightDetector
     /// </summary>
     public partial class FooterView : UserControl
     {
-        FooterViewModel vm;
         public FooterView()
         {
             InitializeComponent();
@@ -34,6 +33,7 @@ namespace FlightDetector
             //};
             ComboBox speeds = new ComboBox();
         }
+
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
@@ -83,6 +83,47 @@ namespace FlightDetector
         }
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((FooterViewModel)this.DataContext).stopPlay();
+        }
+
+        private void skipToTheStartButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((FooterViewModel)this.DataContext).VM_NextLine = 1;
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            if((((FooterViewModel)this.DataContext).VM_NextLine - 30) < 0)
+            {
+                ((FooterViewModel)this.DataContext).VM_NextLine = 0;
+            }
+            else
+            {
+                ((FooterViewModel)this.DataContext).VM_NextLine = ((FooterViewModel)this.DataContext).VM_NextLine - 30;
+            }
+            
+        }
+
+        private void fastForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if ((((FooterViewModel)this.DataContext).VM_NextLine + 30) > ((FooterViewModel)this.DataContext).VM_MaxValueSlider)
+            {
+                ((FooterViewModel)this.DataContext).VM_NextLine = ((FooterViewModel)this.DataContext).VM_MaxValueSlider -1;
+            }
+            else
+            {
+                ((FooterViewModel)this.DataContext).VM_NextLine = ((FooterViewModel)this.DataContext).VM_NextLine + 30;
+            }
+        }
+
+        private void skipToTheEndButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((FooterViewModel)this.DataContext).VM_NextLine = ((FooterViewModel)this.DataContext).VM_MaxValueSlider ;
+        }
+
+        private void stopButton_Click_1(object sender, RoutedEventArgs e)
         {
             ((FooterViewModel)this.DataContext).stopPlay();
         }
