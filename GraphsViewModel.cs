@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FlightDetector.Annotations;
-
-
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -49,7 +47,6 @@ namespace FlightDetector
             get => this._timeStep;
             set
             {
-
                 this._timeStep = value;
                 // we add (1/timeStepsPerSecond) because we want to add the relative part of the second
                 this._secondsPassed += (1 / this._timeStepsPerSecond);
@@ -60,8 +57,6 @@ namespace FlightDetector
                         UpdateLastValues(this.MostCorrelatedChartValues, MostCorrelatedFeature);
                     UpdateAnomalyGraph();
                     this._lastTimeStepAdded = this._timeStep;
-
-
                 }
             }
         }
@@ -74,7 +69,6 @@ namespace FlightDetector
             set
             {
                 this._selectedFeature = value;
-
                 this._lastTimeStepAdded = 0;
                 this.SelectedFeatureChartValues.Clear();
                 UpdateLastValues(this.SelectedFeatureChartValues, this._selectedFeature);
@@ -103,6 +97,7 @@ namespace FlightDetector
                     UpdateAnomalyGraph();
                 }
                 Trace.WriteLine(_mostCorrelatedFeature + "changed");
+
                 OnPropertyChanged(nameof(MostCorrelatedFeature));
             }
         }
@@ -111,7 +106,6 @@ namespace FlightDetector
 
         public ChartValues<double> MostCorrelatedChartValues { get; set; }
 
-        
         public void OnPropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -149,12 +143,14 @@ namespace FlightDetector
 
 
 
+
             this.SelectedFeatureGraph = new SeriesCollection
             {
                 new LineSeries
                 {
 
                     Values = this.SelectedFeatureChartValues
+
 
                 }
             };
@@ -163,7 +159,6 @@ namespace FlightDetector
             {
                 new LineSeries
                 {
-
                     Values = this.MostCorrelatedChartValues
                 }
             };
@@ -230,7 +225,6 @@ namespace FlightDetector
         {
             return this._model.GetMostCorrelatedFeature(this._selectedFeature);
         }
-
 
         private void UpdateAnomalyGraph()
         {
@@ -299,13 +293,6 @@ namespace FlightDetector
                 thresholdValues.Add(p);
             }
 
-            // ChartValues<ScatterPoint> lineChartValues = new ChartValues<ScatterPoint>
-            // {
-            //     new(beginX, beginY),
-            //     new(endX, endY)
-            // };
-
-            // return lineChartValues;
         }
 
         private double GetMaxXValue()
@@ -347,6 +334,7 @@ namespace FlightDetector
             double centerX = circleCenterAndRadius[0];
             double radius = circleCenterAndRadius[2];
 
+
             double skip = (2 * radius) / 1000;
 
             if (skip == 0)
@@ -355,6 +343,7 @@ namespace FlightDetector
             }
 
             double i = centerX - radius;
+
             while (i < centerX + radius)
             {
                 double[] res = GetCircleY(circleCenterAndRadius, i);
@@ -395,6 +384,7 @@ namespace FlightDetector
             double y2 = (2 * centerY - Math.Sqrt(inSqrt)) / 2;
 
             double[] result = { y1, y2 };
+
 
             return result;
         }
