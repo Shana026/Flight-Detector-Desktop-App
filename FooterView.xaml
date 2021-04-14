@@ -52,7 +52,6 @@
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
                             RenderTransformOrigin="0.06,0.579" Height="25" Width="40" FontSize="14"/>
                 </StackPanel>
-                
 
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="Playback Speed" 
@@ -78,5 +77,5 @@
             </DockPanel>
         </Grid>
     </Border>
-    
+
 </UserControl>

@@ -23,10 +23,10 @@ namespace FlightDetector
 
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(string validFlightPath, string flightToDetectPath, string dllPath, AnomalyDetectorType detectorType)
         {
             InitializeComponent();
-            MainViewModel mainViewModel = new MainViewModel("reg_flight.csv");
+            MainViewModel mainViewModel = new MainViewModel(validFlightPath, flightToDetectPath, detectorType);
             DataContext = mainViewModel;
         }
     }

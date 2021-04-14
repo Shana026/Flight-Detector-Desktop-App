@@ -70,56 +70,112 @@ namespace FlightDetector
             this._dllPath = dllPath;
             this.CsvPath = csvPath;
             this.DetectorType = detectorType;
-            this.anomalyDetector = create();
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                this.anomalyDetector = create(); //create simple anomaly detector
+            }
+            else
+            {
+                //this.anomalyDetector = null;  //todo
+            }
         }
          public int learnNormalFromCSV(StringBuilder CSVfileName)
         {
-            return learnNormalFromCSV(anomalyDetector, CSVfileName);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return learnNormalFromCSV(anomalyDetector, CSVfileName);
+            }
+            else
+            {
+                return 1;
+            }
         }
         public int getLenOfStringBuilder()
         {
-            return getLenOfStringWrapper(anomalyDetector);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getLenOfStringWrapper(anomalyDetector);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public char getChatByIndex(int index)
         {
-            return getCharByIndexStringWrapper(anomalyDetector, index);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getCharByIndexStringWrapper(anomalyDetector, index);
+            }
+            else
+            {
+                return 'a';
+            }
         }
         public string GetMostCorrelativeFeature(string feature)
         {
-            Trace.WriteLine("anomaly file"+getMostCorrelativeFeature(anomalyDetector, new StringBuilder(feature)));
-            int strLen = getLenOfStringWrapper(anomalyDetector);
-            string s = "";
-            for (int i = 0; i < strLen; i++)
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
-                char c = getCharByIndexStringWrapper(anomalyDetector, i);
-                s += c.ToString();
+                Trace.WriteLine("anomaly file" + getMostCorrelativeFeature(anomalyDetector, new StringBuilder(feature)));
+                int strLen = getLenOfStringWrapper(anomalyDetector);
+                string s = "";
+                for (int i = 0; i < strLen; i++)
+                {
+                    char c = getCharByIndexStringWrapper(anomalyDetector, i);
+                    s += c.ToString();
+                }
+                return s;
             }
-            return s;
+            else
+            {
+                return "hello";
+            }
         }
         //helper function for GetLinearRegression
 
         public int getLenOfFloatArrayWrapper()
         {
-            return getLenOfFloatArrayWrapper(anomalyDetector);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getLenOfFloatArrayWrapper(anomalyDetector);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public float getFloatArrayByIndex(int index)
         {
-            return getFloatArrayByIndex(anomalyDetector, index);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getFloatArrayByIndex(anomalyDetector, index);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         //before using need to run learnNormalFromCSV(StringBuilder CSVfileName)
         public float[] GetLinearRegression(string feature)
         {
-            getLinearRegression(anomalyDetector, new StringBuilder(feature));
-            int length = getLenOfFloatArrayWrapper();
-            float[] line = new float[2];
-            for (int i = 0; i < length; i++)
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
-                line[i] = getFloatArrayByIndex(i);
+                getLinearRegression(anomalyDetector, new StringBuilder(feature));
+                int length = getLenOfFloatArrayWrapper();
+                float[] line = new float[2];
+                for (int i = 0; i < length; i++)
+                {
+                    line[i] = getFloatArrayByIndex(i);
+                }
+                return line;
             }
-            return line;
+            else
+            {
+                return null;
+            }
         }
 
         public float[] GetMinCircle(string feature)
@@ -129,28 +185,56 @@ namespace FlightDetector
         
         public int detectFromCSV(StringBuilder CSVfileName)
         {
-            return detectFromCSV(anomalyDetector, CSVfileName);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return detectFromCSV(anomalyDetector, CSVfileName);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public int getLenOfArrayWrapper()
         {
-            return getLenOfArrayWrapper(anomalyDetector);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getLenOfArrayWrapper(anomalyDetector);
+            }
+            else
+            {
+                return 1;
+            }
         }
         public int getAnomalyByIndex(int index)
         {
-            return getAnomalyByIndex(anomalyDetector, index);
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
+            {
+                return getAnomalyByIndex(anomalyDetector, index);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public int[] GetAllAnomaliesTimesSteps()
         {
-            getAllAnomalyTimestamp(anomalyDetector);
-            int length = getLenOfArrayWrapper();
-            int[] anomalies = new int[length];
-            for(int i = 0; i < length; i++)
+            if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {
-                anomalies[i] = getAnomalyByIndex(i);
+                getAllAnomalyTimestamp(anomalyDetector);
+                int length = getLenOfArrayWrapper();
+                int[] anomalies = new int[length];
+                for (int i = 0; i < length; i++)
+                {
+                    anomalies[i] = getAnomalyByIndex(i);
+                }
+                return anomalies;
             }
-            return anomalies;
+            else
+            {
+                return null;
+            }
         }
     }
 }

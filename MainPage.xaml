@@ -47,21 +47,34 @@
         -->
 
         <DockPanel Loaded="ReturnHomeIfCsvNotValid">
-            <Button x:Name="ReturnHomeButton" Content="Return Home"
-                    Click="ReturnHomeButton_onClick"></Button>
+            <!-- Button x:Name="ReturnHomeButton" Content="Return Home"
+                    Click="ReturnHomeButton_onClick"></ -->
 
-            <StackPanel DockPanel.Dock="Right">
-                <local:GraphsView Height="400" Width="600" Margin="10"
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <local:dataDisplayView Grid.Row="0" DataContext="{Binding Path=DataDisplayViewModel}"></local:dataDisplayView>
+
+                    <local:joystick Grid.Row="1" DataContext="{Binding Path=JoystickViewModel}"></local:joystick>
+                </Grid>
+                
+
+                <local:GraphsView Height="800" Width="600" Margin="10"
                                   HorizontalAlignment="Right"
                                   DataContext="{Binding Path=GraphsViewModel}"></local:GraphsView>
+
             </StackPanel>
-            
+
 
             <local:FooterView Margin="0, 10,0,0" DockPanel.Dock="Bottom"
                               VerticalAlignment="Bottom" 
                               DataContext="{Binding Path=FooterViewModel}"></local:FooterView>
         </DockPanel>
-        
     </Grid>
 </Page>
 

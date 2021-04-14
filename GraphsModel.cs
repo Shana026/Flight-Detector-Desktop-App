@@ -66,32 +66,10 @@ namespace FlightDetector
 
         public string GetMostCorrelatedFeature(string feature)
         {
-            // todo implement via FlightData
-            double maxCorrelation = 0;
-            string mostCorrelated = "";
-            double[] featureAllValues = this._data.GetFeatureAllValues(feature);
-            string[] features = this._data.Features;
-            for (int i = 0; i < features.Length; i++)
-            {
-                if (features[i] == feature) // we don't want to check correlation to the same feature
-                {
-                    continue;
-                }
-                double[] tempFeatureAllValues = this._data.GetFeatureAllValues(features[i]);
-                double tempCorrelation = Math.Abs(StatisticsUtil.Pearson(featureAllValues, tempFeatureAllValues));
-            
-                if (tempCorrelation <= maxCorrelation)
-                {
-                    continue;
-                }
-            
-                maxCorrelation = tempCorrelation;
-                mostCorrelated = features[i];
-            }
-            
-            return mostCorrelated;
 
-            // return this._data.GetCorrelatedFeature(feature);
+
+            return this._data.GetCorrelatedFeature(feature);
+
         }
     }
 }

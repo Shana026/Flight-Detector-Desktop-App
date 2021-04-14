@@ -54,7 +54,7 @@ namespace FlightDetector
             InitializeComponent();
             ShowsNavigationUI = false;
             DataContext = this;
-            this.DetectorTypes = new string[] {"Linear Regression based", "Min Circle based"};
+            this.DetectorTypes = new string[] { "Linear Regression based", "Min Circle based" };
             this.SelectedType = this.DetectorTypes[0];
         }
 
@@ -113,7 +113,7 @@ namespace FlightDetector
 
             if (!IsFlightgearOpen())
             {
-                
+
                 MessageBox.Show("Please open FlightGear and make sure the settings match the instructions", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
