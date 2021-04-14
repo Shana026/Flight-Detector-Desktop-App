@@ -16,7 +16,7 @@ namespace FlightDetector
     class AnomalyDetector
     {
         private string _dllPath;
-        private string _csvPath;
+        public string CsvPath { get; private set; }
         private AnomalyDetectorType _detectorType;
         IntPtr anomalyDetector;
 
@@ -68,7 +68,7 @@ namespace FlightDetector
         public AnomalyDetector(string dllPath, string csvPath, AnomalyDetectorType detectorType)
         {
             this._dllPath = dllPath;
-            this._csvPath = csvPath;
+            this.CsvPath = csvPath;
             this.DetectorType = detectorType;
             if (this.DetectorType.Equals(AnomalyDetectorType.LinearRegression))
             {

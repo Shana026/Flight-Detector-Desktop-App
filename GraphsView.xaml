@@ -7,17 +7,6 @@
              mc:Ignorable="d" FontSize="16"
              d:DesignHeight="500" d:DesignWidth="350">
     <Grid>
-        <!-- Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions -->
         <DockPanel>
             <StackPanel>
                 <ComboBox Margin="10" 
@@ -124,6 +113,7 @@
                                            Fill="Black"
                         >
 
+
                         </lvc:ScatterSeries>
                     </lvc:CartesianChart.Series>
 
@@ -136,5 +126,6 @@
                 </lvc:CartesianChart>
             </StackPanel>
         </DockPanel>
+
     </Grid>
 </UserControl>

@@ -75,7 +75,6 @@
                               VerticalAlignment="Bottom" 
                               DataContext="{Binding Path=FooterViewModel}"></local:FooterView>
         </DockPanel>
-
     </Grid>
 </Page>
 

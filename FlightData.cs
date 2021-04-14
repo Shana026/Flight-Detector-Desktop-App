@@ -52,6 +52,7 @@ namespace FlightDetector
             CreateCsvWithTitles(validFlightPath, validFlightNewPath, features, csvParser);
             CreateCsvWithTitles(flightToInspectPath, flightToInspectNewPath, features, csvParser);
             BuildCorrelationData(detector, validFlightNewPath, flightToInspectNewPath);
+
             this._detectorType = detector.DetectorType;
             this.AllAnomaliesTimeSteps = detector.GetAllAnomaliesTimesSteps();
         }
@@ -114,6 +115,7 @@ namespace FlightDetector
         {
             detector.learnNormalFromCSV(new StringBuilder(validFlightPath));
             detector.detectFromCSV(new StringBuilder(flightToDetectPath));
+
             this.CorrelationData = new Dictionary<string, KeyValuePair<string, float[]>>();
             foreach (var feature in this.Features)
             {
@@ -143,6 +145,7 @@ namespace FlightDetector
             for (int i = 1; i < allLines.Length; i++)
             {
                 allLines[i] = dataLines[i - 1];
+
             }
             csvParser.CreateFile(newFilePath, allLines);
         }
