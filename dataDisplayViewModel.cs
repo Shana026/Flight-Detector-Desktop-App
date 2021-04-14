@@ -36,7 +36,7 @@ namespace FlightDetector
             set
             {
                 timeStep = value;
-                Trace.WriteLine("in data dis[lay view model: " + value);
+                // Trace.WriteLine("in data dis[lay view model: " + value);
                 UpdateVars(timeStep);
             }
         }

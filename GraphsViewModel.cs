@@ -170,14 +170,14 @@ namespace FlightDetector
 
             this.AnomalyDetectionGraph = new SeriesCollection
             {
-                new LineSeries
+                new ScatterSeries
                 {
                     Values = this.ThresholdValues
                 },
-                new ScatterSeries
-                {
-                    Values = this.NormalFeaturesValues
-                },
+                // new ScatterSeries
+                // {
+                //     Values = this.NormalFeaturesValues
+                // },
                 new ScatterSeries
                 {
                     Values = this.AnomalyFeaturesValues
@@ -234,57 +234,60 @@ namespace FlightDetector
 
         private void UpdateAnomalyGraph()
         {
+            this.ThresholdValues.Clear();
             if (!string.IsNullOrEmpty(this.MostCorrelatedFeature))
             {
                 BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
                 if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression && this.NormalFeaturesValues.Count > 0)
                 {
-                    this.ThresholdValues = BuildLinearRegressionValues();
+                    // this.ThresholdValues = BuildLinearRegressionValues(this.ThresholdValues);
+                    BuildLinearRegressionValues(this.ThresholdValues);
                 }
                 else if (this.NormalFeaturesValues.Count > 0)// Min Circle
                 {
-                    this.ThresholdValues = BuildMinCircleValues();
+                    // this.ThresholdValues = BuildMinCircleValues();
+                    BuildMinCircleValues(this.ThresholdValues);
                 }
             }
         } 
 
 
-        private SeriesCollection BuildDetectionSeriesCollection()
-        {
-            this.ThresholdValues.Clear(); // when building the graph we need to erase what was there before
-
-            if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
-            {
-                BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
-                if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
-                {
-                    this.ThresholdValues = BuildLinearRegressionValues();
-                }
-                else // Min Circle
-                {
-                    this.ThresholdValues = BuildMinCircleValues();
-                }
-            }
-            
-
-            SeriesCollection detectionSeries = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Values = this.ThresholdValues
-                },
-                new ScatterSeries
-                {
-                    Values = this.NormalFeaturesValues
-                },
-                new ScatterSeries
-                {
-                    Values = this.AnomalyFeaturesValues
-                }
-            };
-
-            return detectionSeries;
-        }
+        // private SeriesCollection BuildDetectionSeriesCollection()
+        // {
+        //     this.ThresholdValues.Clear(); // when building the graph we need to erase what was there before
+        // 
+        //     if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
+        //     {
+        //         BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
+        //         if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
+        //         {
+        //             this.ThresholdValues = BuildLinearRegressionValues();
+        //         }
+        //         else // Min Circle
+        //         {
+        //             this.ThresholdValues = BuildMinCircleValues();
+        //         }
+        //     }
+        //     
+        // 
+        //     SeriesCollection detectionSeries = new SeriesCollection
+        //     {
+        //         new LineSeries
+        //         {
+        //             Values = this.ThresholdValues
+        //         },
+        //         new ScatterSeries
+        //         {
+        //             Values = this.NormalFeaturesValues
+        //         },
+        //         new ScatterSeries
+        //         {
+        //             Values = this.AnomalyFeaturesValues
+        //         }
+        //     };
+        // 
+        //     return detectionSeries;
+        // }
 
         private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
         {
@@ -308,7 +311,9 @@ namespace FlightDetector
                 // {
                 //     normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
                 // }
-                normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                ScatterPoint p = new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index], 1);
+                // normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
+                normal.Add(p);
                 index++;
             }
         }
@@ -320,24 +325,34 @@ namespace FlightDetector
             return Array.Exists(allAnomaliesTimeSteps, anomaly => timeStep == anomaly);
         }
 
-        private ChartValues<ScatterPoint> BuildLinearRegressionValues()
+        private void BuildLinearRegressionValues(ChartValues<ScatterPoint> thresholdValues)
         {
             var correlationData = this._model.GetCorrelationData();
             float[] line = correlationData[this.SelectedFeature].Value;
 
             double beginX = GetMinXValue() - GetMinXValue() * 0.1;
-            double beginY = line[0] * beginX + line[1];
+            // double beginY = line[0] * beginX + line[1];
 
             double endX = GetMaxXValue() + GetMaxXValue() * 0.1;
-            double endY = line[0] * endX + line[1];
+            // double endY = line[0] * endX + line[1];
 
-            ChartValues<ScatterPoint> lineChartValues = new ChartValues<ScatterPoint>
+            ChartValues<ScatterPoint> lineChartValues = new ChartValues<ScatterPoint>();
+
+            for (double x = 0; x < endX; x += 0.1)
             {
-                new(beginX, beginY),
-                new(endX, endY)
-            };
+                double y = line[0] * x + line[1];
+                ScatterPoint p = new ScatterPoint(x, y, 1);
+                // lineChartValues.Add(p);
+                thresholdValues.Add(p);
+            }
 
-            return lineChartValues;
+            // ChartValues<ScatterPoint> lineChartValues = new ChartValues<ScatterPoint>
+            // {
+            //     new(beginX, beginY),
+            //     new(endX, endY)
+            // };
+
+            // return lineChartValues;
         }
 
         private double GetMaxXValue()
@@ -370,7 +385,7 @@ namespace FlightDetector
             return min;
         }
 
-        private ChartValues<ScatterPoint> BuildMinCircleValues()
+        private void BuildMinCircleValues(ChartValues<ScatterPoint> minCircle)
         {
             var correlationData = this._model.GetCorrelationData();
 
@@ -379,7 +394,7 @@ namespace FlightDetector
             double centerX = circleCenterAndRadius[0];
             double radius = circleCenterAndRadius[2];
 
-            ChartValues<ScatterPoint> circle = new ChartValues<ScatterPoint>();
+            // ChartValues<ScatterPoint> circle = new ChartValues<ScatterPoint>();
 
             double i = 0;
             while (i < centerX + radius)
@@ -387,8 +402,8 @@ namespace FlightDetector
                 double[] res = GetCircleY(circleCenterAndRadius, i);
                 ScatterPoint p1 = new ScatterPoint(i, res[0], 1);
                 ScatterPoint p2 = new ScatterPoint(i, res[1], 1);
-                circle.Add(p1);
-                circle.Add(p2);
+                minCircle.Add(p1);
+                minCircle.Add(p2);
 
                 if (i - centerX + radius < 0.05 || centerX + radius - i < 0.05)
                 {
@@ -400,7 +415,7 @@ namespace FlightDetector
                 }
             }
 
-            return circle;
+            // return circle;
         }
 
         private double[] GetCircleY(float[] circle, double x)
