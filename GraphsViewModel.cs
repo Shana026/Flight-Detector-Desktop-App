@@ -29,7 +29,11 @@ namespace FlightDetector
         public double TimeStepsPerSecond
         {
             get => this._timeStepsPerSecond;
-            set => this._timeStepsPerSecond = value;
+            set
+            {
+                this._timeStepsPerSecond = value;
+                this._secondsPassed = 0;
+            } 
         }
 
         private string[] _features;
@@ -243,7 +247,8 @@ namespace FlightDetector
                     BuildMinCircleValues(this.ThresholdValues);
                 }
             }
-        } 
+        }
+
 
         private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
         {
@@ -259,16 +264,7 @@ namespace FlightDetector
             int index = 0;
             for (int i = 0; i < selectedFeatureValues.Count; i++) // todo to constant
             {
-                // if (IsTimeStepAnomaly(i))
-                // {
-                //     anomaly.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                // }
-                // else
-                // {
-                //     normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                // }
                 ScatterPoint p = new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index], 1);
-                // normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
                 normal.Add(p);
                 index++;
             }
@@ -343,7 +339,16 @@ namespace FlightDetector
             double centerX = circleCenterAndRadius[0];
             double radius = circleCenterAndRadius[2];
 
-            double i = 0;
+            double skip = (2 * radius) / 1000;
+
+            if (skip == 0)
+            {
+                return;
+            }
+
+            double i = centerX - radius;
+
+
             while (i < centerX + radius)
             {
                 double[] res = GetCircleY(circleCenterAndRadius, i);
@@ -351,16 +356,9 @@ namespace FlightDetector
                 ScatterPoint p2 = new ScatterPoint(i, res[1], 1);
                 minCircle.Add(p1);
                 minCircle.Add(p2);
+                i += skip;
 
 
-                if (i - centerX + radius < 0.05 || centerX + radius - i < 0.05)
-                {
-                    i += 0.001;
-                }
-                else
-                {
-                    i += 0.01;
-                }
             }
         }
 

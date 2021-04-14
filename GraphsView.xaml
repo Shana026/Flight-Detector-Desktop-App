@@ -91,6 +91,7 @@
 
                 <lvc:CartesianChart x:Name="AnomaliesGraph"
                                     Height="200"
+                                    Width="300"
                                     DockPanel.Dock="Bottom"
                                     Hoverable="False"
                                     DataTooltip="{x:Null}"
@@ -100,7 +101,7 @@
                     <lvc:CartesianChart.Series>
                         
                         <lvc:ScatterSeries Values="{Binding Path=NormalFeaturesValues}"
-                                           MaxPointShapeDiameter="7"
+                                           MaxPointShapeDiameter="8"
                                            Fill="Blue">
 
                         </lvc:ScatterSeries>
@@ -109,7 +110,7 @@
                         </lvc:ScatterSeries>
 
                         <lvc:ScatterSeries Values="{Binding Path=ThresholdValues}"
-                                           MaxPointShapeDiameter="1.5"
+                                           MaxPointShapeDiameter="3"
                                            Fill="Black"
                         >
 

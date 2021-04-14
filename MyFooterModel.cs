@@ -24,7 +24,6 @@ namespace FlightDetector
             get { return nextLine; }
             set { 
                 nextLine = value;
-                Trace.WriteLine("in model" + nextLine);
                 NotifyPropertyChanged("NextLine");
             }
         }
@@ -46,7 +45,7 @@ namespace FlightDetector
             this.playbackSpeed = 100;
             stop = false;
             CsvParser csvParser = new CsvParser();
-            lines = csvParser.GetCsvLines("reg_flight.csv");
+            lines = csvParser.GetCsvLines("files\\test_flight.csv"); 
             csvNumOfLine = lines.Length;
             nextLine = 0;
         }
