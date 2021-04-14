@@ -127,6 +127,8 @@ namespace FlightDetector
                 MessageBox.Show("DLL do not matches the chosen type!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+            this.LoadingText.Visibility = Visibility.Visible;
             this.NavigationService.Navigate(new MainPage(validFlightPath, flightToDetectPath, dllPath, detectorType));
         }
 
@@ -135,6 +137,7 @@ namespace FlightDetector
             try
             {
                 TcpClient client = new TcpClient("127.0.0.1", 5400);
+                client.Close();
                 return true;
             }
             catch (Exception e)

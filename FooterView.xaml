@@ -74,7 +74,12 @@
                         <ComboBoxItem Content="1.75"/>
                         <ComboBoxItem Content="2"/>
                     </ComboBox>
+
                 </StackPanel>
+
+                <ComboBox x:Name ="anomalies" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" SelectedItem="{Binding VM_SelectedAnomaly}" IsEditable="True"
+                          IsReadOnly="True" Text="Anomalies" ItemsSource="{Binding Path= VM_AnomaliesList}">
+                </ComboBox>
             </DockPanel>
         </Grid>
     </Border>

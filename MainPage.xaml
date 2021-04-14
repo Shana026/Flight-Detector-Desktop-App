@@ -7,6 +7,10 @@
       mc:Ignorable="d"
       Title="MainPage" Height="630" Width="800">
 
+    <Page.Background>
+        <ImageBrush ImageSource="images/background 2.jpg"></ImageBrush>
+    </Page.Background>
+
     <Grid>
         <!--Grid.RowDefinitions>
             <RowDefinition Height="20"/>

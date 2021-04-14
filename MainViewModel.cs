@@ -86,7 +86,7 @@ namespace FlightDetector
             AnomalyDetector detector = new AnomalyDetector("", "", detectorType);
             FlightData data = new FlightData(csvParser, validFlightPath, flightToDetectPath, detector, features);
 
-            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()));
+            this.FooterViewModel = new FooterViewModel(new MyFooterModel(new Client()), data.AllAnomaliesTimeSteps);
             this.FooterViewModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs args)
             {
                 OnFooterPropertyChange(args);
@@ -123,6 +123,7 @@ namespace FlightDetector
             this.GraphsViewModel.TimeStep = this.TimeStep;
             this.DataDisplayViewModel.TimeStep = this.TimeStep;
             this.JoystickViewModel.TimeStep = this.TimeStep;
+            this.FooterViewModel.VM_NextLine = this.TimeStep;
         }
 
         private void UpdateViewModlesSpeedChanged()

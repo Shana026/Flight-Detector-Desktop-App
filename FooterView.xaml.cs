@@ -86,5 +86,20 @@ namespace FlightDetector
         {
             ((FooterViewModel)this.DataContext).stopPlay();
         }
+
+
+
+        // private void Anomalies_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)//added
+        // {
+        //     Handles();
+        // 
+        // }
+        // 
+        // private void Handles() //added
+        // {
+        //     string anomalie = anomalies.SelectedItem.ToString().Split(new string[] { ": " }, StringSplitOptions.None).Last();
+        //     int time = int.Parse(anomalie);
+        //     ((FooterViewModel)this.DataContext).VM_NextLine = time;
+        // }
     }
 }

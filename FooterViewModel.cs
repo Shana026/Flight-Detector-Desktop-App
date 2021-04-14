@@ -10,11 +10,42 @@ namespace FlightDetector
 {
     class FooterViewModel: INotifyPropertyChanged
     {
+
+        private int[] anomaliesList;  //added
+        public int[] VM_AnomaliesList
+        {
+            get { return anomaliesList; }
+            set
+            {
+                anomaliesList = value;
+                NotifyPropertyChanged(nameof(VM_AnomaliesList));
+            }
+        }
+
+        private int selectedAnomaly;
+
+        public int VM_SelectedAnomaly
+        {
+            get { return selectedAnomaly; }
+            set
+            {
+                selectedAnomaly = value;
+                this.VM_NextLine = selectedAnomaly;
+                NotifyPropertyChanged(nameof(VM_SelectedAnomaly));
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private MyFooterModel model;
-        public FooterViewModel(MyFooterModel model)
+        public FooterViewModel(MyFooterModel model, int[] anomaliesList)
         {
+            if (anomaliesList.Length > 0)
+            {
+                this.VM_SelectedAnomaly = anomaliesList[0];
+            }
+            this.VM_AnomaliesList = anomaliesList;
             this.model = model;
             model.connect("127.0.0.1", 5400);
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
@@ -45,7 +76,11 @@ namespace FlightDetector
         {
             get { return model.NextLine; }
             set {
-                model.nextLine = value;
+                if (model != null)
+                {
+                    model.nextLine = value;
+                }
+                
             }
         }
 
