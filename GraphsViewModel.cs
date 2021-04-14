@@ -249,45 +249,7 @@ namespace FlightDetector
                     BuildMinCircleValues(this.ThresholdValues);
                 }
             }
-        } 
-
-
-        // private SeriesCollection BuildDetectionSeriesCollection()
-        // {
-        //     this.ThresholdValues.Clear(); // when building the graph we need to erase what was there before
-        // 
-        //     if (!String.IsNullOrEmpty(this.MostCorrelatedFeature))
-        //     {
-        //         BuildFeatureValues(this.NormalFeaturesValues, AnomalyFeaturesValues);
-        //         if (this._model.GetDetectorType() == AnomalyDetectorType.LinearRegression)
-        //         {
-        //             this.ThresholdValues = BuildLinearRegressionValues();
-        //         }
-        //         else // Min Circle
-        //         {
-        //             this.ThresholdValues = BuildMinCircleValues();
-        //         }
-        //     }
-        //     
-        // 
-        //     SeriesCollection detectionSeries = new SeriesCollection
-        //     {
-        //         new LineSeries
-        //         {
-        //             Values = this.ThresholdValues
-        //         },
-        //         new ScatterSeries
-        //         {
-        //             Values = this.NormalFeaturesValues
-        //         },
-        //         new ScatterSeries
-        //         {
-        //             Values = this.AnomalyFeaturesValues
-        //         }
-        //     };
-        // 
-        //     return detectionSeries;
-        // }
+        }
 
         private void BuildFeatureValues(ChartValues<ScatterPoint> normal, ChartValues<ScatterPoint> anomaly)
         {
@@ -303,16 +265,7 @@ namespace FlightDetector
             int index = 0;
             for (int i = 0; i < selectedFeatureValues.Count; i++) // todo to constant
             {
-                // if (IsTimeStepAnomaly(i))
-                // {
-                //     anomaly.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                // }
-                // else
-                // {
-                //     normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
-                // }
                 ScatterPoint p = new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index], 1);
-                // normal.Add(new ScatterPoint(selectedFeatureValues[index], mostCorrelatedValues[index]));
                 normal.Add(p);
                 index++;
             }
@@ -394,9 +347,14 @@ namespace FlightDetector
             double centerX = circleCenterAndRadius[0];
             double radius = circleCenterAndRadius[2];
 
-            // ChartValues<ScatterPoint> circle = new ChartValues<ScatterPoint>();
+            double skip = (2 * radius) / 1000;
 
-            double i = 0;
+            if (skip == 0)
+            {
+                return;
+            }
+
+            double i = centerX - radius;
             while (i < centerX + radius)
             {
                 double[] res = GetCircleY(circleCenterAndRadius, i);
@@ -405,17 +363,19 @@ namespace FlightDetector
                 minCircle.Add(p1);
                 minCircle.Add(p2);
 
-                if (i - centerX + radius < 0.05 || centerX + radius - i < 0.05)
-                {
-                    i += 0.001;
-                }
-                else
-                {
-                    i += 0.01;
-                }
-            }
+                i += skip;
 
-            // return circle;
+                // if (i - centerX + radius < 0.1 || centerX + radius - i < 0.1)
+                // {
+                //     i += 0.05;
+                //     // i += skip;
+                // }
+                // else
+                // {
+                //     i += 0.1;
+                //     // i += skip;
+                // }
+            }
         }
 
         private double[] GetCircleY(float[] circle, double x)
