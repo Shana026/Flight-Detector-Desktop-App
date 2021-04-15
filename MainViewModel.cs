@@ -121,6 +121,10 @@ namespace FlightDetector
 
         private void UpdateViewModelsTimeStepChanged()
         {
+            if (this.TimeStep >= this.FooterViewModel.VM_MaxValueSlider)
+            {
+                return;
+            }
             this.GraphsViewModel.TimeStep = this.TimeStep;
             this.DataDisplayViewModel.TimeStep = this.TimeStep;
             this.JoystickViewModel.TimeStep = this.TimeStep;

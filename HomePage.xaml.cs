@@ -134,16 +134,10 @@ namespace FlightDetector
 
         private bool IsFlightgearOpen()
         {
-            try
-            {
-                // TcpClient client = new TcpClient("127.0.0.1", 5400);
-                // client.Close();
-                return true;
-            }
-            catch (Exception e)
-            {
+            Process[] pname = Process.GetProcessesByName("fgfs");
+            if (pname.Length == 0)
                 return false;
-            }
+            return true;
         }
 
 
